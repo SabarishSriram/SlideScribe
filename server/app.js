@@ -1,7 +1,9 @@
 const express = require("express");
-const app = express();
-
 const multer = require("multer");
+const fs = require("fs/promises");
+const path = require("path");
+const pdfparse = require("pdf-parse");
+const app = express();
 
 const PORT = 3000;
 app.use(express.json());
@@ -17,13 +19,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.post("/api/upload", upload.single("file"), (req, res) => {
+app.post("/api/upload", upload.single("file"), async (req, res) => {
+  if (!req.file) return res.status(400).send("No file uploaded!");
+  const filepath = path.join(__dirname, "uploads", req.file.filename);
+  console.log(filepath);
+
   try {
-    if (!req.file) {
-      res.send("Upload a File");
-    } else {
-      res.send(req.file);
-    }
+    const databuffer = await fs.readFile(filepath);
+    const pdfdata = await pdfparse(databuffer);
+    return res.send({ text: pdfdata.text });
   } catch (error) {
     console.log(error);
   }
