@@ -50,9 +50,12 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     const databuffer = await fs.readFile(filepath);
     const pdfdata = await pdfparse(databuffer);
     console.log("ur text has been sent to the model🥰");
+    const short =  pdfdata.text.slice(0, 8000);
+    console.log(short.length)
 
     const notes = await generateNotes(pdfdata.text);
     res.send(notes);
+    console.log("Finished Succcesfuly!!!")
   } catch (error) {
     console.log(error);
   }
