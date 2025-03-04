@@ -40,9 +40,10 @@ export default {
         const response = await axios.post("http://localhost:3000/api/upload", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
+        console.log(response.data)
 
-        if (response.data && response.data[0]?.generated_text) {
-          notes.value = response.data[0].generated_text;
+        if (response.data) {
+          notes.value = response.data
         } else {
           notes.value = "⚠️ No structured notes generated.";
         }
