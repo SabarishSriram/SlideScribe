@@ -5,6 +5,7 @@ const path = require("path");
 const pdfparse = require("pdf-parse");
 const cors = require("cors");
 const axios = require("axios");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const app = express();
 
@@ -25,17 +26,14 @@ const upload = multer({ storage });
 
 const generateNotes = async (text) => {
   try {
-    const response = await axios.post(
-      "https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct",
-      { inputs: `Convert this into structured notes: ${text}` },
-      {
-        headers: {
-          Authorization: `Bearer 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`,
-        },
-      }
+    const genAI = new GoogleGenerativeAI(
+      "AIzaSyCmUa6B3ppXQ5oRmhhWdnd_IZndCELcjm0"
     );
-    console.log("i am working")
-    return response.data;
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const prompt = `Convert this into structured notes ${text}`;
+    const result = await model.generateContent(prompt);
+    console.log("i am working");
+    return result;
   } catch (error) {
     console.error("Hugging Face API Error:", error);
   }
@@ -50,12 +48,11 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
     const databuffer = await fs.readFile(filepath);
     const pdfdata = await pdfparse(databuffer);
     console.log("ur text has been sent to the model🥰");
-    const short =  pdfdata.text.slice(0, 8000);
-    console.log(short.length)
 
     const notes = await generateNotes(pdfdata.text);
-    res.send(notes);
-    console.log("Finished Succcesfuly!!!")
+    const extractedText = notes.response?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    res.send(extractedText);
+    console.log("Finished Succcesfuly!!!");
   } catch (error) {
     console.log(error);
   }
