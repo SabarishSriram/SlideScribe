@@ -4,7 +4,7 @@ import "../src/style.css"; // Import styles directly
 </script>
 
 <template>
-  <div>
+  <div class="">
     <Navbar />
   </div>
 </template>
