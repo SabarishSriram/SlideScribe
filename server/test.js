@@ -53,7 +53,7 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
 
     const notes = await generateNotes(pdfdata.text);
     const extractedText = notes.response?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-    res.send({text: extractedText});
+    res.send(extractedText);
     console.log("Finished Succcesfuly!!!");
   } catch (error) {
     console.log(error);
