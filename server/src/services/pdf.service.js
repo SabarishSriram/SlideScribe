@@ -1,10 +1,11 @@
-const pdfparse = require("pdf-parse");
-const fs = require("fs/promises");
-const path = require("path");
+import pdfparse from "pdf-parse";
+import fs from "fs/promises";
+import path from "path";
 
-const parsePDF = async (filepath) => {
+export const parsePDF = async (filepath) => {
   try {
     const dataBuffer = await fs.readFile(filepath);
+    console.log(filepath)
     const pdfData = await pdfparse(dataBuffer);
     return pdfData.text;
   } catch (error) {
@@ -12,5 +13,3 @@ const parsePDF = async (filepath) => {
     throw error;
   }
 };
-
-module.exports = { parsePDF };

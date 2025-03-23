@@ -1,11 +1,17 @@
-const path = require("path");
-const { parsePDF } = require("../services/pdf.service");
-const { generateNotes } = require("../services/ai.service");
-const uploadPDF = async (req, res) => {
+import path from "path";
+import { fileURLToPath } from "url";
+import { parsePDF } from "../services/pdf.service.js";
+import { generateNotes } from "../services/ai.service.js";
+
+// Get __dirname equivalent in ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export const uploadPDF = async (req, res) => {
   if (!req.file) return res.status(400).send("No file uploaded!");
 
-  const filepath = path.join(__dirname,"../../uploads", req.file.filename);
-  
+  const filepath = path.join(__dirname, "../../uploads", req.file.filename);
+
   try {
     const extractedText = await parsePDF(filepath);
     console.log("Text extracted, sending to AI Model");
@@ -19,5 +25,3 @@ const uploadPDF = async (req, res) => {
     res.status(500).json({ error: "Failed to process file" });
   }
 };
-
-module.exports = { uploadPDF };

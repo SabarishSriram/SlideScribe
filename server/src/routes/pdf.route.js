@@ -1,8 +1,9 @@
-const express = require("express");
-const router = express.Router()
-const { uploadPDF } = require("../controllers/pdf.controller");
-const upload = require("../middleware/pdf.middleware");
+import { uploadPDF } from "../controllers/pdf.controller.js";
+import upload from "../middleware/pdf.middleware.js";
+import express from "express"
+
+const router=express.Router()
 
 router.post("/upload", upload.single("file"), uploadPDF);
 
-module.exports = router;
+export default router
