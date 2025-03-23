@@ -4,7 +4,7 @@ require("dotenv").config(); // Load API key from .env file
 const generateNotes = async (text) => {
   try {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
     const prompt = `Convert this into structured notes ${text}`;
     const result = await model.generateContent(prompt);
     

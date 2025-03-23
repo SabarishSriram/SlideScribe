@@ -1,7 +1,7 @@
 
 const express = require("express");
 const cors = require("cors");
-const pdfRoutes = require("./src/routes/pdf.routes");
+const pdfRoutes = require("./src/routes/pdf.route");
 require("dotenv").config(); 
 
 const app = express();
