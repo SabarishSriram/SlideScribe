@@ -1,24 +1,18 @@
 import express from "express";
-import { ExpressAuth } from "@auth/express";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import GitHub from "@auth/express/providers/github";
-import { prisma } from "../config/prisma.js"; // Make sure this file has .js extension
+import passport from "passport";
 
-export async function loadAuth() {
-  
-  const app = express();
+const router = express.Router();
 
-  app.set("trust proxy", true);
+router.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] })
+);
 
-  app.use(
-    "/auth/*",
-    ExpressAuth({
-      adapter: PrismaAdapter(prisma),
-      providers: [GitHub],
-    })
-  );
-
-  console.log("Auth.js setup completed.");
-}
-
-loadAuth().catch(console.error);
+router.get(
+  "github/callback",
+  passport.authenticate("github", {
+    failureRedirect: "/login",
+    successRedirect: "/protected",
+  })
+);
+export default router;
