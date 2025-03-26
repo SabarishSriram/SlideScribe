@@ -10,7 +10,9 @@ const PORT = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
-
+function isloggedin(req, res, next) {
+  req.user ? next() : res.status(405).json("You are Not Authorized")
+}
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -24,6 +26,10 @@ app.use(passport.session());
 app.use("/api/auth", authRoutes);
 
 app.use("/api", pdfroutes);
+
+app.get("/protected",isloggedin ,(req, res) => {
+  res.send("hi bro");
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT} 🚀✨`);
