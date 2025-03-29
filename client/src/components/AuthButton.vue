@@ -14,7 +14,7 @@ const logIn = (provider) => {
 </script>
 
 <template>
-  <div class="space-y-3">
+  <div class="space-y-3 text-white">
     <Button
       v-if="googlePending"
       variant="outline"
@@ -26,13 +26,14 @@ const logIn = (provider) => {
       v-else
       variant="outline"
       @click="logIn('google')"
-      class="text-base w-full flex justify-center items-center"
+      class="text-base hover:bg-[#fb444f] w-full flex justify-center items-center"
     >
       <img :src="google" alt="Google icon" class="size-5" />
       Sign in with Google
     </Button>
-
-    <Button
+    
+    <RouterLink to="/dashboard">
+      <Button
       v-if="githubPending"
       variant="outline"
       class="text-base w-full cursor-not-allowed"
@@ -43,10 +44,12 @@ const logIn = (provider) => {
       v-else
       variant="outline"
       @click="logIn('github')"
-      class="text-base w-full flex justify-center items-center"
+      class="text-base w-full hover:bg-[#fb444f]  flex justify-center items-center"
     >
       <img :src="github" alt="Github icon" class="size-5" />
       Sign in with Github
     </Button>
+    </RouterLink>
+    
   </div>
 </template>

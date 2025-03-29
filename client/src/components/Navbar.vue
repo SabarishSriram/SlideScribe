@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -14,7 +13,7 @@ import AuthButton from "./AuthButton.vue";
 
 <template>
   <nav
-    class="w-full bg-[hsl(var(--sidebar-background))] text-[hsl(var(--sidebar-primary))] border-b border-[hsl(var(--sidebar-border))] dark"
+    class="w-full bg-[black] text-[hsl(var(--sidebar-primary))] border-b border-[hsl(var(--sidebar-border))] dark"
   >
     <div
       class="container flex justify-between items-center mx-auto px-6 md:px-10"
@@ -38,7 +37,7 @@ import AuthButton from "./AuthButton.vue";
           <DialogContent class="dark border-black text-white max-w-sm">
             <DialogHeader>
               <DialogTitle
-                className="flex items-center py-3 space-x-2 justify-center"
+                className="flex items-center py-5 space-x-2 justify-center"
               >
                 <img src="/smile.svg" alt="logo" className="size-7" />
                 <span className="font-semibold text-xl sm:text-xl md:text-2xl ">
@@ -50,8 +49,7 @@ import AuthButton from "./AuthButton.vue";
                 </span>
               </DialogTitle>
               <DialogDescription>
-                <AuthButton/>
-                
+                <AuthButton />
               </DialogDescription>
             </DialogHeader>
           </DialogContent>
