@@ -21,85 +21,50 @@ const parseMarkdown = (text: string) => {
 //   // const formData = new FormData();
 //   // formData.append("file", file);
 
-  
 // };
 
 onMounted(async () => {
-    try {
-      const response = await fetch("/test2.txt"); // Path to your markdown/text file
-      if (response.ok) {
-        const text = await response.text();
-        generatedText.value = text;
-      }
-    } catch (error) {
-      console.error("Failed to load text:", error);
+  try {
+    const response = await fetch("/test1.txt"); // Path to your markdown/text file
+    if (response.ok) {
+      const text = await response.text();
+      generatedText.value = text;
     }
-  });
+  } catch (error) {
+    console.error("Failed to load text:", error);
+  }
+});
 </script>
 
-
 <template>
-
-  <div v-if="generatedText" class="markdown-wrapper">
+  <div v-if="generatedText" class="bg-black p-5 rounded-lg shadow-md mt-5">
     <h3>Generated Notes:</h3>
     <!-- Use v-html to render parsed HTML from the Markdown -->
     <div class="markdown-content" v-html="parseMarkdown(generatedText)"></div>
   </div>
 </template>
 <style>
-
-.markdown-wrapper {
-  background-color: #f0f7ff; /* Light blue background */
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
-}
-
-/* Base styling */
-.markdown-content {
-  font-family: 'Open Sans', sans-serif;
-  color: #0a2540; /* Dark blue text */
-  line-height: 1.6;
-}
-
-/* Main topic (h1) */
+/* Apply styles directly to the elements */
 .markdown-content h1 {
-  font-size: 28px;
-  font-weight: bold;
-  color: #0056b3; /* Deep blue */
-  border-bottom: 3px solid #0056b3;
-  padding-bottom: 5px;
-  margin-top: 20px;
+  @apply text-2xl font-bold  text-red-700 border-b-4 border-red-700 pb-1 mt-5;
 }
 
-/* Subtopic (h2) */
 .markdown-content h2 {
-  font-size: 22px;
-  font-weight: 600;
-  color: #0077cc; /* Slightly lighter blue */
-  border-left: 5px solid #0077cc;
-  padding-left: 10px;
-  margin-top: 15px;
+  @apply text-xl font-semibold bg-slate-800 rounded-md text-red-600 border-l-4 border-red-600 pl-3 mt-4;
 }
 
-/* Unordered list (bullet points) */
 .markdown-content ul {
-  list-style-type: disc;
-  padding-left: 25px;
-  margin-top: 10px;
+  @apply list-disc  pl-6 mt-2;
 }
 
-/* List items */
 .markdown-content li {
-  font-size: 16px;
-  color: #004080; /* Slightly darker blue */
-  margin-bottom: 5px;
+  @apply text-base text-white mb-1;
+}
+.markdown-content p {
+  @apply text-base text-white mb-1;
 }
 
-/* Bold text */
 .markdown-content strong {
-  color: #0056b3;
-  font-weight: bold;
+  @apply text-red-700 bg-slate-900 p-1 rounded-md font-bold;
 }
 </style>
