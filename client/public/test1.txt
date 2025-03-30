@@ -1,0 +1,121 @@
+# Crowdsourced Urban Problem Reporting System
+
+## Abstract
+The system addresses inefficient reporting and resolution of urban infrastructure issues (e.g., potholes, broken streetlights) through a digital platform enabling real-time reporting.  This enhances response times and overall efficiency. The system allows users to submit complaints with location details and images, track status, and assigns them to the relevant municipal authority. By streamlining communication and automating issue tracking, it enhances efficiency, transparency, and accountability in urban problem management.
+
+## Challenges
+
+- **Inefficient Traditional Reporting:**
+    - Manual complaint methods (calls, emails, in-person visits) are slow and often ignored.
+- **Lack of Transparency:**
+    - Citizens have no way to track the status of their complaints.
+- **Delayed Resolution:**
+    - Authorities struggle to prioritize and address issues efficiently.
+- **Data Management Issues:**
+    - No centralized system to store and analyze reported problems.
+- **Limited Citizen Engagement:**
+    - People hesitate to report issues due to lengthy processes and lack of visible impact.
+- **Scalability Concerns:**
+    - Handling a large number of reports in real time can be challenging for municipal authorities.
+
+## Research Gap
+
+- **Lack of Centralized Reporting System:**
+    - Existing complaint mechanisms are fragmented.
+- **Limited Public Participation:**
+    - No dedicated platform encourages citizen reporting.
+- **Absence of Real-Time Tracking:**
+    - Users cannot monitor complaint status.
+- **Poor Data Utilization:**
+    - Authorities lack analytical tools for identifying recurring issues and resource allocation.
+- **Delayed Response Mechanism:**
+    - Current systems do not prioritize complaints based on urgency.
+
+## Entities & Attributes
+
+1.  **USER**
+    -   UserID (Primary Key)
+    -   Name
+    -   Email
+    -   Phone
+
+2.  **REPORT**
+    -   ReportID (Primary Key)
+    -   Description
+    -   ReportDate
+    -   UserID (Foreign Key referencing USER)
+    -   LocationID (Foreign Key referencing LOCATION)
+    -   Complaint CategoryID (Foreign Key referencing COMPLAINT_CATEGORY)
+    -   StatusID (Foreign Key referencing STATUS)
+
+3.  **LOCATION**
+    -   LocationID (Primary Key)
+    -   Address
+    -   Latitude
+    -   Longitude
+
+4.  **COMPLAINT_CATEGORY**
+    -   Complaint CategoryID (Primary Key)
+    -   CategoryName
+
+5.  **STATUS**
+    -   StatusID (Primary Key)
+    -   StatusName
+
+6.  **UPDATE**
+    -   UpdateID (Primary Key)
+    -   ReportID (Foreign Key referencing REPORT)
+    -   UpdateDescription
+    -   UpdateDate
+
+7.  **TICKET**
+    -   TicketID (Primary Key)
+    -   ReportID (Foreign Key referencing REPORT)
+    -   AuthorityID (Foreign Key referencing AUTHORITY)
+    -   ResolutionID (Foreign Key referencing RESOLUTION)
+
+8.  **AUTHORITY**
+    -   AuthorityID (Primary Key)
+    -   AuthorityName
+    -   DepartmentID (Foreign Key referencing DEPARTMENT)
+
+9.  **DEPARTMENT**
+    -   DepartmentID (Primary Key)
+    -   DepartmentName
+
+10. **RESOLUTION**
+    -   ResolutionID (Primary Key)
+    -   ResolutionDetails
+    -   ResolutionDate
+
+11. **FEEDBACK**
+    -   FeedbackID (Primary Key)
+    -   TicketID (Foreign Key referencing TICKET)
+    -   FeedbackText
+    -   FeedbackDate
+
+12. **NOTIFICATION**
+    -   NotificationID (Primary Key)
+    -   AdminID (Foreign Key referencing ADMIN)
+    -   NotificationText
+    -   NotificationDate
+
+13. **ADMIN**
+    -   AdminID (Primary Key)
+    -   AdminName
+    -   Email
+
+## Relationship Sets
+
+-   USER → REPORT: 1:N
+-   REPORT → LOCATION: 1:N
+-   REPORT → COMPLAINT_CATEGORY: 1:N
+-   REPORT → STATUS: 1:N
+-   REPORT → UPDATE: 1:N
+-   REPORT → TICKET: 1:1
+-   TICKET → AUTHORITY: 1:N
+-   AUTHORITY → DEPARTMENT: 1:N
+-   TICKET → RESOLUTION: 1:1
+-   TICKET → FEEDBACK: 1:N
+-   ADMIN → NOTIFICATION: 1:N
+-   ADMIN → REPORT: 1:N"
