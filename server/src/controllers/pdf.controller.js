@@ -19,7 +19,7 @@ export const uploadPDF = async (req, res) => {
     const notes = await generateNotes(extractedText);
     console.log("Notes generated successfully!");
 
-    res.json({text:notes});
+    res.send(notes);
   } catch (error) {
     console.error("Error processing file:", error);
     res.status(500).json({ error: "Failed to process file" });

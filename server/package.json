@@ -30,6 +30,7 @@
     "passport-github2": "^0.1.12",
     "path": "^0.12.7",
     "pdf-parse": "^1.1.1",
+    "pptx-parser": "^1.1.7-beta.9",
     "prisma": "^6.5.0"
   }
 }
