@@ -1,0 +1,727 @@
+
+# SQL and PL/SQL Notes
+
+## Conditional Statements
+
+- **IF THEN ELSE END IF** structure
+    ```sql
+    IF <condition> THEN
+        <statement(s)>
+    ELSE
+        <statement(s)>
+    END IF;
+    ```
+
+## Loops
+
+- **LOOP EXIT WHEN END LOOP** structure
+    ```sql
+    LOOP 
+        ......
+        EXIT WHEN <condition>......
+    END LOOP;
+    ```
+
+## Creating Tables (DDL)
+
+### Syntax
+```sql
+CREATE TABLE sample_table(
+    column1 data_type(size) constraint_name,
+    column2 data_type(size) constraint_name,
+    column3 data_type(size) constraint_name,
+    ....
+);
+```
+- **sample_table:** Name of the table to be created.
+- **data_type:** Type of data that can be stored in the field (e.g., INTEGER, VARCHAR).
+- **size:** Size of the data type.
+- **constraint_name:** Name of the constraint (e.g., NOT NULL, UNIQUE, PRIMARY KEY).
+
+## Data Definition Language (DDL)
+
+- **DDL:** Data Definition Language statements.
+- **CREATE:** To create objects in the database (e.g., tables).
+- **ALTER:** Alters the structure of the database (e.g., adding, modifying, or dropping columns).
+- **DROP:** Delete objects from the database (e.g., tables).
+- **TRUNCATE:** Remove all records from a table.
+- **COMMENT:** Add comments to the data dictionary.
+
+### ALTER - Adding Columns
+```sql
+ALTER TABLE table_name ADD (column_name1 data_type (size), column_name2 data_type (size),….., column_nameN data_type (size));
+```
+- Example:
+    ```sql
+    ALTER TABLE Employee ADD (Address varchar2(20));
+    ALTER TABLE Employee ADD (Designation varchar2(20), Dept varchar2(3));
+    ```
+
+### ALTER - Modifying Columns
+```sql
+ALTER TABLE table_name MODIFY (column_name data_type(new_size));
+```
+- Example:
+    ```sql
+    ALTER TABLE Employee MODIFY (Name varchar2(30));
+    ```
+
+### ALTER - Dropping Columns
+```sql
+ALTER TABLE table_name DROP COLUMN column_name;
+```
+- Example:
+    ```sql
+    ALTER TABLE Student DROP COLUMN Age;
+    ```
+
+### DROP TABLE
+```sql
+DROP TABLE table_name;
+```
+- Example:
+    ```sql
+    DROP TABLE Employee
+    ```
+
+### RENAME TABLE
+```sql
+RENAME old_table_name TO new_table_name;
+```
+- Example:
+    ```sql
+    RENAME Employee TO Employee_details
+    ```
+
+### TRUNCATE TABLE
+```sql
+TRUNCATE TABLE table_name;
+```
+- Example:
+    ```sql
+    TRUNCATE TABLE Employee_details;
+    ```
+
+## Data Manipulation Language (DML)
+
+- **DML:** Data Manipulation Language statements.
+- **SELECT:** Retrieve data from a database.
+- **INSERT:** Insert data into a table.
+- **UPDATE:** Updates existing data within a table.
+- **DELETE:** Deletes records from a table.
+- **CALL:** Call a PL/SQL or Java subprogram.
+- **EXPLAIN PLAN:** Explain access path to data.
+- **LOCK TABLE:** Control concurrency.
+
+### INSERT
+
+1.  `INSERT INTO table VALUES(value1, value2,..);`
+    - Inserts one row at a time.
+    - List values in the default order of columns.
+    - Enclose character and date values in single quotes.
+
+    - Example:
+        ```sql
+        INSERT INTO Employee VALUES ('ashok', '16-mar-1998', 30000);
+        ```
+
+2.  `INSERT INTO table(column1, column2,..)VALUES(value1, value2,..);`
+    - Rows can be inserted with NULL values by omitting the column or specifying NULL.
+
+    - Example:
+        ```sql
+        INSERT INTO Employee (name, dob, salary) VALUES ('ashok', '16-mar-1998', 30000);
+        ```
+3. `INSERT INTO table_name1 SELECT column_name1, column_name2,….,column_nameN FROM table_name2;`
+   -Example:
+        ```sql
+        INSERT INTO Employee_details SELECT name, dob FROM Exmployee;
+        ```
+
+## Data Control Language (DCL)
+
+- **DCL:** Data Control Language statements.
+- **GRANT:** Gives user access privileges to the database.
+- **REVOKE:** Withdraw access privileges given with the GRANT command.
+
+## Transaction Control Language (TCL)
+
+- **TCL:** Transaction Control Language statements.
+- **COMMIT:** Save work done.
+- **SAVEPOINT:** Identify a point in a transaction to which you can later roll back.
+- **ROLLBACK:** Restore database to original state since the last COMMIT.
+- **SET TRANSACTION:** Change transaction options like what rollback segment to use.
+
+## SQL Constraints
+
+- **Constraints:** Rules applied to the type of data in a table.
+
+### Types of Constraints:
+
+- **NOT NULL:** The field will never accept null values.
+    - Example:
+        ```sql
+        CREATE TABLE Student ( ID int(6) NOT NULL, NAME varchar(10) NOT NULL, ADDRESS varchar(20) );
+        ```
+- **UNIQUE:** Uniquely identifies each row in the table.
+    - Example:
+        ```sql
+        CREATE TABLE Student ( ID int(6) NOT NULL UNIQUE, NAME varchar(10), ADDRESS varchar(20) );
+        ```
+- **PRIMARY KEY:** Uniquely identifies each row in the table and does not accept NULL values. Only one primary key per table.
+    - Example:
+        ```sql
+        CREATE TABLE Student ( ID int(6) NOT NULL UNIQUE, NAME varchar(10), ADDRESS varchar(20), PRIMARY KEY(ID) );
+        ```
+- **FOREIGN KEY:**  A field in a table which uniquely identifies each row of another table and links the tables.
+    - Example:
+        ```sql
+        CREATE table Order_Detail( order_id int PRIMARY KEY, order_name varchar(60) NOT NULL, c_id int FOREIGN KEY REFERENCES Customer_Detail(c_id) );
+        ```
+    - Or
+       ```sql
+        ALTER table Order_Detail ADD FOREIGN KEY (c_id) REFERENCES Customer_Detail(c_id);
+       ```
+- **CHECK:** Restricts the value of a column between a range.
+    - Example:
+        ```sql
+        CREATE table Student( s_id int NOT NULL CHECK(s_id > 0), Name varchar(60) NOT NULL, Age int );
+        ```
+    - Or
+       ```sql
+        ALTER table Student ADD CHECK(s_id > 0);
+       ```
+- **DEFAULT:** Provides a default value for the fields if no value is specified.
+    - Example:
+        ```sql
+        CREATE TABLE Student ( ID int(6) NOT NULL, NAME varchar(10) NOT NULL, AGE int DEFAULT 18 );
+        ```
+
+### Primary Key vs Foreign Key
+
+- **Primary Key:** Uniquely identifies each row in a table. Cannot contain NULL values.
+- **Foreign Key:** Links to the primary key of another table. Establishes a relationship between tables.
+
+### Primary Key vs Unique Key
+- **Primary Key:** A table can only have one primary key. Primary key does not accept null values.
+- **Unique Key:** A table can have multiple unique keys. Unique key accepts null values.
+
+## Aggregate Functions
+
+- **Aggregate function:** A function where the values of multiple rows are grouped together as input to form a single value.
+
+### Types of Aggregate Functions:
+
+- **COUNT()**
+    - `COUNT(*)`: Returns the total number of records.
+    - `COUNT(column)`: Returns the number of non-NULL values in the specified column.
+    - `COUNT(DISTINCT column)`: Returns the number of distinct non-NULL values in the specified column.
+- **SUM()**
+    - `SUM(column)`: Sum of all non-NULL values in the specified column.
+    - `SUM(DISTINCT column)`: Sum of all distinct non-NULL values in the specified column.
+- **AVG()**
+    - `AVG(column)`: Average of all non-NULL values in the specified column.
+- **MIN()**
+    - `MIN(column)`: Minimum value in the specified column (excluding NULL values).
+- **MAX()**
+    - `MAX(column)`: Maximum value in the specified column (excluding NULL values).
+
+## Built-in Functions - Numeric Functions
+
+- **ABS():** Returns the absolute value of a number.
+    - Syntax: `SELECT ABS(-243.5);` Output: 243.5
+- **ACOS():** Returns the arccosine of a number.
+    - Syntax: `SELECT ACOS(0.25);` Output: 1.318116071652818
+- **ASIN():** Returns the arcsine of a number.
+    - Syntax: `SELECT ASIN(0.25);` Output: 0.25268025514207865
+- **ATAN():** Returns the arctangent of a number.
+    - Syntax: `SELECT ATAN(2.5);` Output: 1.1902899496825317
+- **CEIL():** Returns the smallest integer value >= a number.
+    - Syntax: `SELECT CEIL(25.75);` Output: 26
+- **CEILING():** Returns the smallest integer value >= a number.
+    - Syntax: `SELECT CEILING(25.75);` Output: 26
+- **COS():** Returns the cosine of a number.
+    - Syntax: `SELECT COS(30);` Output: 0.15425144988758405
+- **COT():** Returns the cotangent of a number.
+    - Syntax: `SELECT COT(6);` Output: -3.436353004180128
+- **DEGREES():** Converts a radian value into degrees.
+    - Syntax: `SELECT DEGREES(1.5);` Output: 85.94366926962348
+- **DIV():** Integer division.
+    - Syntax: `SELECT 10 DIV 5;` Output: 2
+- **EXP():** Returns e raised to the power of a number.
+    - Syntax: `SELECT EXP(1);` Output: 2.718281828459045
+- **FLOOR():** Returns the largest integer value <= a number.
+    - Syntax: `SELECT FLOOR(25.75);` Output: 25
+- **GREATEST():** Returns the greatest value in a list.
+    - Syntax: `SELECT GREATEST(30, 2, 36, 81, 125);` Output: 125
+- **LEAST():** Returns the smallest value in a list.
+    - Syntax: `SELECT LEAST(30, 2, 36, 81, 125);` Output: 2
+- **LN():** Returns the natural logarithm of a number.
+    - Syntax: `SELECT LN(2);` Output: 0.6931471805599453
+- **LOG10():** Returns the base-10 logarithm of a number.
+    - Syntax: `SELECT LOG(2);` Output: 0.6931471805599453
+- **LOG2():** Returns the base-2 logarithm of a number.
+    - Syntax: `SELECT LOG2(6);` Output: 2.584962500721156
+- **MOD():** Returns the remainder of n divided by m.
+    - Syntax: `SELECT MOD(18, 4);` Output: 2
+- **PI():** Returns the value of PI (6 decimal places).
+    - Syntax: `SELECT PI();` Output: 3.141593
+- **POW():** Returns m raised to the nth power.
+    - Syntax: `SELECT POW(4, 2);` Output: 16
+- **RADIANS():** Converts a value in degrees to radians.
+    - Syntax: `SELECT RADIANS(180);`
+- **RAND():** Returns a random number.
+    - Syntax: `SELECT RAND();` Output: 0.33623238684258644
+- **ROUND():** Returns a number rounded to a certain number of decimal places.
+    - Syntax: `SELECT ROUND(5.553);` Output: 6
+- **SIGN():** Returns a value indicating the sign of a number.
+    - Syntax: `SELECT SIGN(255.5);` Output: 1
+- **SIN():** Returns the sine of a number.
+    - Syntax: `SELECT SIN(2);` Output: 0.9092974268256817
+- **SQRT():** Returns the square root of a number.
+    - Syntax: `SELECT SQRT(25);` Output: 5
+- **TAN():** Returns the tangent of a number.
+    - Syntax: `SELECT TAN(1.75);` Output: -5.52037992250933
+- **ATAN2():** Returns the arctangent of the x and y coordinates, as an angle and expressed in radians.
+    - Syntax: `SELECT ATAN2(7);` Output: 1.42889927219073
+- **TRUNCATE():** Returns 7.53635 truncated to 2 places right of the decimal point.
+    - Syntax: `SELECT TRUNCATE(7.53635, 2);` Output: 7.53
+
+## Built-in Functions - String Functions
+
+- **ASCII():** Find the ASCII value of a character.
+    - Syntax: `SELECT ascii('t’);` Output: 116
+- **CHAR_LENGTH():** Find the length of a word.
+    - Syntax: `SELECT char_length('Hello!’);` Output: 6
+- **CHARACTER_LENGTH():** Find the length of a line.
+    - Syntax: `SELECT CHARACTER_LENGTH('geeks for geeks’);` Output: 15
+- **CONCAT():** Add two words or strings.
+    - Syntax: `SELECT 'Geeks' || ' ' || 'forGeeks';` Output: ‘GeeksforGeeks’
+- **CONCAT_WS():** Add two words or strings with a concatenating symbol.
+    - Syntax: `SELECT CONCAT_WS('_', 'geeks', 'for', 'geeks’);` Output: geeks_for_geeks
+- **FIND_IN_SET():** Find a symbol from a set of symbols.
+    - Syntax: `SELECT FIND_IN_SET('b', 'a, b, c, d, e, f’);` Output: 2
+- **FORMAT():** Display a number in the given format.
+    - Syntax: `Format("0.981", "Percent");` Output: ‘98.10%’
+- **INSTR():** Find the occurrence of an alphabet.
+    - Syntax: `INSTR('geeks for geeks', 'e’);` Output: 2
+    - Syntax: `INSTR('geeks for geeks', 'e', 1, 2 );` Output: 3
+- **LCASE():** Convert the given string into lower case.
+    - Syntax: `LCASE ("GeeksFor Geeks To Learn");` Output: geeksforgeeks to learn
+- **LEFT():** SELECT a sub string from the left of given size or characters.
+    - Syntax: `SELECT LEFT('geeksforgeeks.org', 5);` Output: geeks
+- **LENGTH():** Find the length of a word.
+    - Syntax: `LENGTH('GeeksForGeeks’);` Output: 13
+- **LOCATE():** Find the nth position of the given word in a string.
+    - Syntax: `SELECT LOCATE('for', 'geeksforgeeks', 1);` Output: 6
+- **LOWER():** Convert the upper case string into lower case.
+    - Syntax: `SELECT LOWER('GEEKSFORGEEKS.ORG’);` Output: geeksforgeeks.org
+- **LPAD():** Make the given string of the given size by adding the given symbol.
+    - Syntax: `LPAD('geeks', 8, '0’);` Output: 000geeks
+- **LTRIM():** Cut the given sub string from the original string.
+    - Syntax: `LTRIM('123123geeks', '123’);` Output: geeks
+- **MID():** Find a word from the given position and of the given size.
+    - Syntax: `Mid ("geeksforgeeks", 6, 2);` Output: for
+- **POSITION():** Find position of the first occurrence of the given alphabet.
+    - Syntax: `SELECT POSITION('e' IN 'geeksforgeeks’);` Output: 2
+- **REPEAT():** Write the given string again and again till the number of times mentioned.
+    - Syntax: `SELECT REPEAT('geeks', 2);` Output: geeksgeeks
+- **REPLACE():** Cut the given string by removing the given sub string.
+    - Syntax: `REPLACE('123geeks123', '123’);` Output: geeks
+- **REVERSE():** Reverse a string.
+    - Syntax: `SELECT REVERSE('geeksforgeeks.org’);` Output: ‘gro.skeegrofskeeg’
+- **RIGHT():** SELECT a sub string from the right end of the given size.
+    - Syntax: `SELECT RIGHT('geeksforgeeks.org', 4);` Output: ‘.org’
+- **RPAD():** Make the given string as long as the given size by adding the given symbol on the right.
+    - Syntax: `RPAD('geeks', 8, '0’);` Output: ‘geeks000’
+- **RTRIM():** Cut the given sub string from the original string.
+    - Syntax: `RTRIM('geeksxyxzyyy', 'xyz’);` Output: ‘geeks’
+- **SPACE():** Write the given number of spaces.
+    - Syntax: `SELECT SPACE(7);` Output: ‘ ‘
+- **STRCMP():** Compares 2 strings.
+  - Returns 0 if string1 and string2 are the same.
+  - Returns -1 if string1 is smaller than string2.
+  - Returns 1 if string1 is larger than string2.
+    - Syntax: `SELECT STRCMP('google.com', 'geeksforgeeks.com’);` Output: -1
+- **SUBSTR():** Find a sub string from the a string from the given position.
+    - Syntax: `SUBSTR('geeksforgeeks', 1, 5);` Output: ‘geeks’
+- **SUBSTRING():** Find an alphabet from the mentioned size and the given string.
+    - Syntax: `SELECT SUBSTRING('GeeksForGeeks.org', 9, 1);` Output: ‘G’
+- **SUBSTRING_INDEX():** Find a sub string before the given symbol.
+    - Syntax: `SELECT SUBSTRING_INDEX('www.geeksforgeeks.org', '.', 1);` Output: ‘www’
+- **TRIM():** Cut the given symbol from the string.
+    - Syntax: `TRIM(LEADING '0' FROM '000123’);` Output: 123
+- **UCASE():** Make the string in upper case.
+    - Syntax: `UCASE ("GeeksForGeeks");` Output: GEEKSFORGEEKS
+
+## Built-in Functions - Date Functions
+
+- **NOW():** Returns the current date and time.
+    - Example: `SELECT NOW();` Output: 2017-01-13 08:03:52
+- **CURDATE():** Returns the current date.
+    - Example: `SELECT CURDATE();` Output: 2017-01-13
+- **CURTIME():** Returns the current time.
+    - Example: `SELECT CURTIME();` Output: 08:05:15
+- **DATE():** Extracts the date part of a date/time expression.
+- **EXTRACT():** Returns a single part of a date/time.
+    - Syntax: `EXTRACT(unit FORM date);`
+    - Example: `SELECT Name, Extract(DAY FROM BirthTime) AS BirthDay FROM Test;`
+- **DATE_ADD():** Adds a specified time interval to a date.
+    - Syntax: `DATE_ADD(date, INTERVAL expr type);`
+    - Example: `SELECT Name, DATE_ADD(BirthTime, INTERVAL 1 YEAR) AS BirthTimeModified FROM Test;`
+- **DATE_SUB():** Subtracts a specified time interval from a date. Syntax for DATE_SUB is same as DATE_ADD just the difference is that DATE_SUB is used to subtract a given interval of date.
+- **DATEDIFF():** Returns the number of days between two dates.
+    - Syntax: `DATEDIFF(date1, date2);`
+    - Example: `SELECT DATEDIFF('2017-01-13','2017-01-03') AS DateDiff;` Output: 10
+- **DATE_FORMAT():** Displays date/time data in different formats.
+    - Syntax: `DATE_FORMAT(date,format);`
+
+## Set Operations
+
+- Used to combine two or more SELECT statements.
+
+### Types of Set Operations:
+
+- **UNION:** Combines the results of two or more SELECT statements and eliminates duplicate rows. Number of columns and datatypes must be the same.
+- **UNION ALL:** Combines the results of two or more SELECT statements but *does not* remove duplicates.
+- **INTERSECT:** Returns the common rows from both SELECT statements. Number of columns and datatype must be the same. No duplicates, data is arranged in ascending order by default.
+- **MINUS:** Displays the rows which are present in the first query but absent in the second query. No duplicates, data is arranged in ascending order by default.
+
+## Subqueries
+
+- **Subquery:** A query within another query.
+
+### Important Rules:
+
+- Can be placed in WHERE, HAVING, FROM clauses.
+- Can be used with SELECT, UPDATE, INSERT, DELETE statements along with expression operator.
+- Must be enclosed in parentheses.
+- Generally executes first, and its output is used to complete the query condition for the main or outer query.
+- Subqueries are on the right side of the comparison operator.
+- **ORDER BY** cannot be used in a Subquery.
+- Use single-row operators with singlerow Subqueries. Use multiple-row operators with multiple-row Subqueries.
+
+### Subqueries with SELECT Statement
+```sql
+SELECT column_name FROM table_name WHERE column_name expression operator ( SELECT COLUMN_NAME from TABLE_NAME WHERE ... );
+```
+```sql
+Select NAME, LOCATION, PHONE_NUMBER from DATABASE WHERE ROLL_NO IN (SELECT ROLL_NO from STUDENT where SECTION=’A’);
+```
+
+### Subqueries with the INSERT Statement
+```sql
+INSERT INTO Student1 SELECT * FROM Student2;
+```
+
+### Subqueries with the UPDATE Statement
+```sql
+UPDATE Student2 SET NAME=’geeks’ WHERE LOCATION IN ( SELECT LOCATION FROM Student1 WHERE NAME IN (‘Raju’,’Ravi’));
+```
+
+### Subqueries with the DELETE Statement
+```sql
+DELETE FROM Student2 WHERE ROLL_NO IN ( SELECT ROLL_NO FROM Student1 WHERE LOCATION = ’chennai’);
+```
+
+## Correlated Subqueries
+
+- Correlated subqueries are used for row-by-row processing. Each subquery is executed once for every row of the outer query.
+
+### Correlated Subqueries with Select Statement
+
+- Find all the employees who earn more than the average salary in their department.
+
+### Using the Exists Operator
+
+- The EXISTS operator tests for existence of rows in the results set of the subquery.
+- Find the employees who have at least one person reporting to them.
+
+### Using the Not Exists Operator
+
+- Find all the departments that do not have any employees.
+
+### CORRELATED UPDATE & DELETE
+```sql
+UPDATE table1 alias1 SET column = (SELECT expression FROM table2 alias2 WHERE alias1.column = alias2.column);
+```
+- Use a correlated subquery to update rows in one table based on rows from another table.
+```sql
+DELETE FROM table1 alias1 WHERE column1 operator (SELECT expression FROM table2 alias2 WHERE alias1.column = alias2.column);
+```
+- Use a correlated subquery to delete rows in one table based on the rows from another table.
+
+## SQL Views
+
+- **Views:** Virtual tables.
+
+### Creating a View
+
+- Uses the `CREATE VIEW` statement.
+
+    ```sql
+    CREATE VIEW view_name AS
+    SELECT column1, column2.....
+    FROM table_name
+    WHERE condition;
+    ```
+
+- Example:
+
+    ```sql
+    CREATE VIEW DetailsView AS
+    SELECT NAME, ADDRESS
+    FROM StudentDetails
+    WHERE S_ID < 5;
+    ```
+
+### Creating View from multiple tables
+
+```sql
+CREATE VIEW MarksView AS
+SELECT StudentDetails.NAME, StudentDetails.ADDRESS, StudentMarks.MARKS
+FROM StudentDetails, StudentMarks
+WHERE StudentDetails.NAME = StudentMarks.NAME;
+```
+
+### Deleting Views
+
+- Uses the `DROP VIEW` statement.
+
+    ```sql
+    DROP VIEW view_name;
+    ```
+
+### Updating Views
+- **Updating Views:** There are certain conditions needed to be satisfied to update a view. If any one of these conditions is not met, then we will not be allowed to update the view.
+
+  - The SELECT statement which is used to create the view should not include GROUP BY clause or ORDER BY clause.
+  - The SELECT statement should not have the DISTINCT keyword.
+  - The View should have all NOT NULL values.
+  - The view should not be created using nested queries or complex queries.
+  - The view should be created from a single table. If the view is created using multiple tables then we will not be allowed to update the view.
+
+### CREATE OR REPLACE VIEW
+```sql
+CREATE OR REPLACE VIEW view_name AS
+SELECT column1,coulmn2,..
+FROM table_name
+WHERE condition;
+```
+### Inserting a row in a view
+```sql
+INSERT INTO view_name(column1, column2 , column3,..) VALUES(value1, value2, value3..);
+```
+
+### Deleting a row from a View
+```sql
+DELETE FROM view_name WHERE condition;
+```
+
+### Uses of a View
+
+- Restricting data access
+- Hiding data complexity
+- Simplify commands for the user
+- Store complex queries
+- Rename Columns
+- Multiple view facility
+
+## Transaction Control
+
+- **Transactions:** A unit of work performed against a database.
+
+### Transaction Control Commands:
+
+- **COMMIT:** Saves changes to the database.
+- **ROLLBACK:** Undoes transactions since the last COMMIT or ROLLBACK.
+- **SAVEPOINT:** Creates points within the group of transactions in which to ROLLBACK.
+
+### ROLLBACK Command
+```sql
+ROLLBACK;
+```
+
+### RELEASE SAVEPOINT Command
+```sql
+RELEASE SAVEPOINT savepoint_name;
+```
+
+### Properties of Transactions (ACID):
+
+- **Atomicity:** All operations in the transaction complete successfully, or none do.
+- **Consistency:** The database changes states properly upon a committed transaction.
+- **Isolation:** Transactions operate independently.
+- **Durability:** The effect of a committed transaction persists even in case of a system failure.
+
+## PL/SQL
+
+- **PL/SQL:** Procedural Language extension for SQL.
+
+### Structure of PL/SQL
+
+- PL/SQL is Block Structured
+- Sections of block
+  - Header Section
+  - Declaration Section
+  - Executable Section
+  - Exception Section
+```sql
+HEADER
+  Type and Name of block
+DECLARE
+  Variables; Constants; Cursors;
+BEGIN
+  PL/SQL and SQL Statements
+EXCEPTION
+  Exception handlers
+END;
+```
+
+### PL/SQL Control Structure
+
+- PL/SQL has a number of control structures which  includes:
+  - Conditional controls
+  - Iterative or loop controls.
+  - Exception or error controls
+
+#### Conditional Controls
+
+```sql
+IF....THEN....END IF;
+
+IF....THEN...ELSE....END IF;
+
+IF....THEN...ELSIF....THEN....ELSE....END IF;
+```
+
+#### Iterative or loop controls
+
+```sql
+LOOP
+  ...SQL Statements...
+  EXIT;
+END LOOP;
+
+WHILE condition LOOP
+  ...SQL Statements...
+END LOOP;
+
+FOR <variable(numeric)> IN [REVERSE] <lowerbound>..<upperbound> LOOP
+  ....
+  .....
+END LOOP;
+```
+
+## Cursors
+
+- **Cursor:** A pointer to the context area which holds the rows returned by a SQL statement.
+
+### Types of Cursors:
+
+- **Implicit cursors:** Automatically created by Oracle for SQL statements.
+- **Explicit cursors:** Programmer-defined cursors for more control over the context area.
+
+### Cursor-Declaration
+
+#### Declaring the Cursor
+```sql
+CURSOR cursor_name  IS  select_statement;
+```
+#### Opening the Cursor
+```sql
+OPEN c_customers;
+```
+#### Fetching the Cursor
+```sql
+FETCH c_customers INTO c_id, c_name, c_addr;
+```
+#### Closing the Cursor
+```sql
+CLOSE c_customers;
+```
+
+## Stored Procedures
+
+- **Stored Procedure:** A group of SQL statements stored together in a database. It is a function in a shared library accessible to the database server.
+
+### Writing Stored Procedures
+```sql
+CREATE or REPLACE PROCEDURE name(parameters)
+AS
+variables;
+BEGIN;
+  //statements;
+END;
+```
+- Three types of parameters are:
+  - IN: It is the default parameter that will receive input value from the program
+  - OUT: It will send output value to the program
+  - IN OUT: It is the combination of both IN and OUT. Thus, it receives from, as well as sends a value to the program
+
+### Invoking Procedures
+- Can invoke Stored procedure stored at the location of the database by using the SQL CALL statement
+
+### Advantages of stored procedure
+
+- Reusable
+- Easy to modify
+- Security
+- Low network traffic
+- Increases performance
+
+## Triggers
+
+- **Trigger:** A stored procedure in a database which automatically invokes whenever a special event in the database occurs.
+
+### The syntax of Triggers in SQL
+```sql
+CREATE [OR REPLACE ] TRIGGER trigger_name
+{BEFORE | AFTER | INSTEAD OF }
+{INSERT [OR] | UPDATE [OR] | DELETE}
+[OF col_name]
+ON table_name
+[REFERENCING OLD AS o NEW AS n]
+[FOR EACH ROW]
+WHEN (condition)
+DECLARE
+  Declaration-statements
+BEGIN
+  Executable-statements
+EXCEPTION
+  Exception-handling-statements
+END;
+```
+### Advantages of Triggers
+- Generating some derived column values automatically
+- Enforcing referential integrity
+- Event logging and storing information on table access
+- Auditing
+- Synchronous replication of tables
+- Imposing security authorizations
+- Preventing invalid transactions
+
+## Query Processing
+
+- **Query Processing:** Includes translations on high-level Queries into low-level expressions that can be used at physical level of file system, query optimization and actual execution of query to get the actual result.
+### Steps of Query Processing:
+  1. Parsing and translation
+  2. Optimization
+  3. Evaluation
+### Parser
+- Syntax check – concludes SQL syntactic validity.
+- Semantic check – determines whether the statement is meaningful or not. Example: query contains a tablename which does not exist is checked by this check.
+- Shared Pool check – Every query possess a hash code during its execution. So, this check determines existence of written hash code in shared pool if code exists in shared pool then database will not take additional steps for optimization and execution.
+#### Hard Parse and Soft Parse
+- If there is a fresh query and its hash code does not exist in shared pool then that query has to pass through from the additional steps known as hard parsing
+- If hash code exists then query does not passes through additional steps. It just passes directly to execution engine. This is known as soft parsing.
+### Optimizer
+- During optimization stage, database must perform a hard parse at least for one unique DML statement and perform optimization during this parse. This database never optimizes DDL unless it includes a DML component such as subquery that require optimization.
+- It is a process in which multiple query execution plan for satisfying a query are examined and most efficient query plan is satisfied for execution.
+- Database catalog stores the execution plans and then optimizer passes the lowest cost plan for execution.
+### Row Source Generation
+- The Row Source Generation is a software that receives a optimal execution plan from the optimizer and produces an iterative execution plan that is usable by the rest of the database.
+- The iterative plan is the binary program that when executes by the sql engine produces the result set.
+### Execution Engine
+- Finally runs the query and display the required result.
+```

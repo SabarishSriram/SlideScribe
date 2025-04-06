@@ -1,34 +1,34 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { marked } from "marked"; // Import marked for Markdown parsing
+
 const generatedText = ref(""); // Store the raw generated text
+const topics = ref<string[]>([]); // Store extracted topics
 
 // Function to parse Markdown to HTML
 const parseMarkdown = (text: string) => {
-  const markedtext = marked(text, {
+  return marked(text, {
     breaks: true, // Enable line breaks
     gfm: true, // Enable GitHub-flavored Markdown (e.g., tables)
   });
-  console.log(markedtext);
-  return markedtext; // Convert the raw markdown text to HTML
 };
 
-// const uploadFile = async (event: any) => {
+// Function to extract topics dynamically
+const extractTopics = (text: string) => {
+  return text
+    .split("\n") // Split text into lines
+    .filter(line => line.startsWith("#")) // Get lines with headings
+    .map(line => line.replace(/^#+\s*/, "")); // Remove # symbols
+};
 
-//   // const file = event.target.files[0];
-//   // if (!file) return;
-
-//   // const formData = new FormData();
-//   // formData.append("file", file);
-
-// };
-
+// Fetch text file on mount
 onMounted(async () => {
   try {
-    const response = await fetch("/test1.txt"); // Path to your markdown/text file
+    const response = await fetch("/test4.txt"); // Path to your markdown/text file
     if (response.ok) {
       const text = await response.text();
       generatedText.value = text;
+      topics.value = extractTopics(text); // Extract topics after fetching
     }
   } catch (error) {
     console.error("Failed to load text:", error);
@@ -37,10 +37,24 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="generatedText" class="bg-black p-5 rounded-lg shadow-md mt-5">
-    <h3>Generated Notes:</h3>
-    <!-- Use v-html to render parsed HTML from the Markdown -->
-    <div class="markdown-content" v-html="parseMarkdown(generatedText)"></div>
+  <div class="flex items-start gap-6">
+    <div
+      v-if="generatedText"
+      class="bg-slate-800 p-5 rounded-lg shadow-md mt-5"
+    >
+      <h3>Generated Notes:</h3>
+      <!-- Use v-html to render parsed HTML from the Markdown -->
+      <div class="markdown-content" v-html="parseMarkdown(generatedText)"></div>
+    </div>
+    <div class="text-red-700 font-bold rounded-md px-6 mr-6 py-2 bg-slate-800 mt-6">
+      Topics:
+      <ul v-if="topics.length" class="list-disc pl-5 text-white mt-2">
+        <li v-for="(topic, index) in topics" :key="index">
+          {{ topic }}
+        </li>
+      </ul>
+      <p v-else class="text-white">Loading topics...</p>
+    </div>
   </div>
 </template>
 <style>
@@ -66,5 +80,8 @@ onMounted(async () => {
 
 .markdown-content strong {
   @apply text-red-700 bg-slate-900 p-1 rounded-md font-bold;
+}
+body {
+  background: black;
 }
 </style>
