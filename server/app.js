@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 function isloggedin(req, res, next) {
-  req.user ? next() : res.status(405).json("You are Not Authorized")
+  req.user ? next() : res.status(405).send("You are Not Authorized")
 }
 app.use(
   session({

@@ -14,7 +14,7 @@ const logIn = (provider) => {
 </script>
 
 <template>
-  <div class="space-y-3 text-white">
+  <div class=" text-white">
     <Button
       v-if="googlePending"
       variant="outline"
@@ -26,7 +26,7 @@ const logIn = (provider) => {
       v-else
       variant="outline"
       @click="logIn('google')"
-      class="text-base hover:bg-[#fb444f] w-full flex justify-center items-center"
+      class="text-base mb-3 hover:bg-[#fb444f] w-full flex justify-center items-center"
     >
       <img :src="google" alt="Google icon" class="size-5" />
       Sign in with Google

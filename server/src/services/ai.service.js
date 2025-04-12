@@ -13,6 +13,7 @@ export const generateNotes = async (text) => {
     3. Use **bold** for important terms and definitions.
     4. Make sure the structure is clear and organized with proper sections.
     5. Ensure that the final output is in pure Markdown (no HTML tags).
+    6. Do not Wrap the text in triple backticks.
 
     Here’s the text you need to convert into structured notes:
     ${text}`;
