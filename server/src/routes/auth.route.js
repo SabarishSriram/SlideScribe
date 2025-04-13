@@ -11,8 +11,16 @@ router.get(
 router.get(
   "/callback/github",
   passport.authenticate("github", {
-    failureRedirect: "/login",
-    successRedirect: "/protected",
+    failureRedirect: "http://localhost:5173",
+    successRedirect: "http://localhost:5173/dashboard",
   })
 );
+
+router.get("/profile",(req,res)=>{
+  if (req.isAuthenticated()) {
+    return res.json(req.user);
+  }
+  return res.status(401).json({ message: 'Unauthorized' });
+}
+)
 export default router;

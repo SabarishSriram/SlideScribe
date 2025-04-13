@@ -16,7 +16,7 @@ passport.use(
       console.log(profile)
       try {
         let user = await prisma.user.findUnique({
-          where: { id:profile.id},
+          where: { email: profile.emails?.[0].value},
         });
 
         // If not, create a new user
@@ -24,7 +24,7 @@ passport.use(
           user = await prisma.user.create({
             data: {
               name: profile.displayName,
-              email: profile.emails?.[0].value ||"",
+              email: profile.emails?.[0].value,
               image: profile.photos?.[0].value || "",
             },
           });
@@ -43,8 +43,16 @@ passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
-  done(null, { id });
+passport.deserializeUser(async(id, done) => {
+  try {
+    // Fetch the full user data using the ID stored in the session
+    const user = await prisma.user.findUnique({
+      where: { id: id },
+    });
+    done(null, user);  // Now req.user will contain the full user object
+  } catch (error) {
+    done(error);  // Handle errors appropriately
+  }
 });
 
 export default passport;
