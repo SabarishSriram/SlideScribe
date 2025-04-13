@@ -5,20 +5,19 @@ import github from "@/assets/github.svg";
 import { Button } from "@/components/ui/button"; // Assuming you're using a UI library
 import { Loader2 } from "lucide-vue-next"; // If you're using Lucide icons
 
-const googlePending = ref(false);
-const githubPending = ref(false);
-
+const loading = ref(null);
 const logIn = (provider) => {
-  console.log(`Logging in with ${provider}`);
+  loading.value = provider;
+  window.location.href = `http://localhost:4000/api/auth/${provider}`;
 };
 </script>
 
 <template>
-  <div class=" text-white">
+  <div class="text-white">
     <Button
-      v-if="googlePending"
+      v-if="loading === 'google'"
       variant="outline"
-      class="text-base w-full cursor-not-allowed"
+      class="text-base mb-3 w-full cursor-not-allowed"
     >
       <Loader2 stroke-width="3" class="text-primary animate-spin" />
     </Button>
@@ -31,10 +30,9 @@ const logIn = (provider) => {
       <img :src="google" alt="Google icon" class="size-5" />
       Sign in with Google
     </Button>
-    
-    <RouterLink to="/dashboard">
-      <Button
-      v-if="githubPending"
+
+    <Button
+      v-if="loading === 'github'"
       variant="outline"
       class="text-base w-full cursor-not-allowed"
     >
@@ -44,12 +42,10 @@ const logIn = (provider) => {
       v-else
       variant="outline"
       @click="logIn('github')"
-      class="text-base w-full hover:bg-[#fb444f]  flex justify-center items-center"
+      class="text-base w-full hover:bg-[#fb444f] flex justify-center items-center"
     >
       <img :src="github" alt="Github icon" class="size-5" />
       Sign in with Github
     </Button>
-    </RouterLink>
-    
   </div>
 </template>
