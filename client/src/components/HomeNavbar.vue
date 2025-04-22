@@ -18,7 +18,14 @@ const props = defineProps<{
   user: User | null; // Explicitly include null in the type
 }>();
 
-console.log(props.user);
+const handleLogout = async() => {
+  const res=await fetch("http://localhost:4000/api/auth/logout", {
+    method:"GET",
+    credentials: "include", // Important to include session cookie
+  });
+  console.log(res)
+  window.location.href = "/";
+};
 </script>
 
 <template>
