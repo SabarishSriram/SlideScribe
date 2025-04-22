@@ -16,11 +16,22 @@ router.get(
   })
 );
 
-router.get("/profile",(req,res)=>{
+router.get("/profile", (req, res) => {
   if (req.isAuthenticated()) {
     return res.json(req.user);
   }
-  return res.status(401).json({ message: 'Unauthorized' });
-}
-)
+  return res.status(401).json({ message: "Unauthorized" });
+});
+
+router.get("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      return res.status(500).json({ message: "Logout failed", error: err });
+    }
+    req.session.destroy(() => {
+      res.clearCookie("connect.sid");
+      res.status(200).json({ message: "Logged out" }); // send JSON // or send a JSON response if using fetch
+    });
+  });
+});
 export default router;
