@@ -43,39 +43,42 @@ console.log(props.user);
         <DropdownMenu>
           <DropdownMenuTrigger>
             <div className="w-full h-full rounded-full overflow-hidden">
-              <img :src="user?.image" class="w-14" />
+              <img :src="user?.image" class="w-11" />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent class="bg-[#1e1313] border-[#472E30]">
             <DropdownMenuLabel>
               <div className="flex items-center gap-3 px-3 py-2">
                 <div className="h-full rounded-full overflow-hidden">
-                    <img :src="user?.image" class="w-14" />
+                  <img :src="user?.image" class="w-11" />
                 </div>
                 <div className="font-bold">
-                  <p
-                    className="font-normal dark:text-slate-300 text-gray-600"
-                  >{{ user?.name }}</p>
+                  <p className="font text-white text-sm">{{ user?.name }}</p>
+                  <p className="font-normal text-white text-sm">
+                    {{ user?.email }}
+                  </p>
                 </div>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuSeparator class="bg-[#472E30]" />
+            <DropdownMenuItem class="p-0 rounded-lg">
               <a
-                className="w-full flex items-center gap-3"
                 href="/dashboard/settings"
+                class="w-full text-white flex items-center gap-3 py-2 hover:bg-[#FF4550] rounded-lg transition-colors"
               >
-                <Settings className="ml-3 size-15" />
+                <Settings :size="17" class="ml-3" />
                 Settings
               </a>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <form className="w-full cursor-pointer flex items-center gap-3">
-                <Button className="flex w-full items-center gap-3">
-                  <LogOut className="ml-3 size-15" />
-                  Logout
-                </Button>
-              </form>
+
+            <DropdownMenuItem class="p-0 rounded-lg">
+              <button
+                class="w-full text-white flex items-center gap-3 py-2 hover:bg-[#FF4550] rounded-lg transition-colors"
+                @click="handleLogout"
+              >
+                <LogOut :size="17" class="ml-3" />
+                Logout
+              </button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
