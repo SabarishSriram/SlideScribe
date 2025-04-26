@@ -16,6 +16,19 @@ router.get(
   })
 );
 
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+router.get(
+  "/callback/google",
+  passport.authenticate("google", {
+    failureRedirect: "http://localhost:5173",
+    successRedirect: "http://localhost:5173/dashboard",
+  })
+);
+
 router.get("/profile", (req, res) => {
   if (req.isAuthenticated()) {
     return res.json(req.user);

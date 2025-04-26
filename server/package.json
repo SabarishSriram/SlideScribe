@@ -31,6 +31,7 @@
     "officeparser": "^5.1.1",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",
+    "passport-google-oauth20": "^2.0.0",
     "path": "^0.12.7",
     "pdf-parse": "^1.1.1",
     "pptxjs": "^0.0.0",
