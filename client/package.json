@@ -15,6 +15,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.482.0",
+    "lucide-vue": "^0.503.0",
     "lucide-vue-next": "^0.483.0",
     "marked": "^15.0.7",
     "reka-ui": "^2.2.0",

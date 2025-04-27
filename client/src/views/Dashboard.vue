@@ -1,9 +1,28 @@
-<script setup lang="ts">
-import axios from "axios";
-import { ref, onMounted, defineAsyncComponent } from "vue";
-import { useRouter } from "vue-router";
+<template>
+  <div class="min-h-screen w-full flex flex-col">
+    <!-- Navbar always at top -->
+    <HomeNavbar :user="user" />
 
-const HomeNavbar = defineAsyncComponent(() => import('@/components/HomeNavbar.vue'));
+    <div class="flex flex-1">
+      <!-- Sidebar on the left -->
+      <div class="hidden md:block w-[250px] bg-slate-900 rounded-br-3xl">
+        <SideBar />
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="flex-1 p-6">
+        <RouterView />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import HomeNavbar from "@/components/HomeNavbar.vue";
+import SideBar from "@/components/SideBar.vue";
+import axios from "axios";
+import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
 
 interface User {
@@ -26,9 +45,6 @@ onMounted(async () => {
   } catch (err) {
     router.push("/");
   }
-});
-</script>
+})
 
-<template>
-  <HomeNavbar :user="user" />
-</template>
+</script>
