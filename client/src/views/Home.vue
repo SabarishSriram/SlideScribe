@@ -12,6 +12,7 @@ onMounted(async () => {
       withCredentials: true,
     });
     user.value = res.data;
+    console.log(user.value)
     if(user.value){
       router.push('/dashboard')
     }

@@ -15,7 +15,7 @@ app.use(
   })
 );
 app.use(express.json());
-function isloggedin(req, res, next) {
+export function isloggedin(req, res, next) {
   req.user ? next() : res.status(405).send("You are Not Authorized");
 }
 app.use(

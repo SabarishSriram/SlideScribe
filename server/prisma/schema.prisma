@@ -14,11 +14,23 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  notes         Note[]
 
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
-  Authenticator Authenticator[]
 }
+
+model Note {
+  id        String   @id @default(cuid()) // Unique identifier for the note
+  title     String   // The title of the uploaded file
+  content   String   // The generated content (text from the file)
+  createdAt DateTime @default(now()) // Timestamp for when the note was created
+  updatedAt DateTime @updatedAt // Timestamp for when the note was last updated
+  userId    String   // Foreign key to the user profile (via profileId)
+  
+  user      User     @relation(fields: [userId], references: [id])
+}
+
 
 model Account {
   userId            String
@@ -59,18 +71,4 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
-// Optional for WebAuthn support
-model Authenticator {
-  credentialID         String  @unique
-  userId               String
-  providerAccountId    String
-  credentialPublicKey  String
-  counter              Int
-  credentialDeviceType String
-  credentialBackedUp   Boolean
-  transports           String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@id([userId, credentialID])
-}
