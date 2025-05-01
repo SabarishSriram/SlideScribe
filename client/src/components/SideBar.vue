@@ -4,7 +4,12 @@
   >
     <router-link
       to="/dashboard"
-      class="flex gap-3 h-10 items-center justify-start rounded-lg transition-all px-6 hover:bg-muted/20"
+      :class="[
+        'flex gap-3 h-10 items-center justify-start rounded-lg transition-all px-6',
+        route.path === '/dashboard'
+          ? 'bg-[#fb444f] text-white'
+          : '',
+      ]"
     >
       <BookOpen :size="20" class="w-5 h-5" />
       <span class="">Notes</span>
@@ -12,7 +17,12 @@
 
     <router-link
       to="/settings"
-      class="flex gap-3 h-10 items-center justify-start rounded-lg transition-all px-6 hover:bg-muted/20"
+      :class="[
+        'flex gap-3 h-10 items-center justify-start rounded-lg transition-all px-6',
+        route.path === '/settings'
+          ? 'bg-[#fb444f] text-white'
+          : '',
+      ]"
     >
       <Settings :size="20" class="w-5 h-5" />
       <span class="">Settings</span>
@@ -22,4 +32,7 @@
 
 <script setup>
 import { BookOpen, ScrollText, Settings } from "lucide-vue-next";
+import { useRoute } from "vue-router";
+const route = useRoute();
+console.log(route.path);
 </script>

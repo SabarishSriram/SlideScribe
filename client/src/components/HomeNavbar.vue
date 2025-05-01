@@ -30,12 +30,15 @@ const handleLogout = async() => {
 
 <template>
   <nav
-    class="w-full bg-[black] text-[hsl(var(--sidebar-primary))] border-b border-[hsl(var(--sidebar-border))] dark"
+    class="w-full bg-slate-900 text-[hsl(var(--sidebar-primary))] rounded-br-xl border-[hsl(var(--sidebar-border))] dark"
   >
     <div
       class="container flex justify-between items-center mx-auto px-6 md:px-10"
     >
       <div class="flex items-center justify-between h-20">
+        <div class="md:hidden bg-white">
+        hi
+      </div>
         <!-- Logo and Brand -->
         <div class="flex items-center gap-3">
           <img src="/smile.svg" alt="" class="w-8" />
@@ -53,7 +56,7 @@ const handleLogout = async() => {
               <img :src="user?.image" class="w-11" />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent class="bg-[#1e1313] border-[#472E30]">
+          <DropdownMenuContent class="bg-[#0F172A] border-[#472E30]">
             <DropdownMenuLabel>
               <div className="flex items-center gap-3 px-3 py-2">
                 <div className="h-full rounded-full overflow-hidden">
@@ -70,7 +73,7 @@ const handleLogout = async() => {
             <DropdownMenuSeparator class="bg-[#472E30]" />
             <DropdownMenuItem class="p-0 rounded-lg">
               <a
-                href="/dashboard/settings"
+                href="/settings"
                 class="w-full text-white flex items-center gap-3 py-2 hover:bg-[#FF4550] rounded-lg transition-colors"
               >
                 <Settings :size="17" class="ml-3" />
