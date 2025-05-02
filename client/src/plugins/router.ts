@@ -5,9 +5,11 @@ import Upload from "@/views/Upload.vue";
 import Settings from "@/components/Settings.vue";
 import Layout from "@/layout/layout.vue";
 import Notes from "@/components/Notes.vue";
+import Noteview from "@/components/Noteview.vue";
 
 const routes = [
   { path: "/", component: Home },
+  { path: "/notes/:id", component: Noteview },
   {
     path: "/",
     component: Layout,
