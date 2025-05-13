@@ -35,3 +35,14 @@ export const uploadPDF = async (req, res) => {
     res.status(500).json({ error: "Failed to process file" });
   }
 };
+
+export const getPDF= async(req,res)=>{
+  const { id } = req.params
+  try {
+    const note = await prisma.note.findUnique({ where: { id } })
+    if (!note) return res.status(404).json({ message: 'Note not found' })
+    res.json(note)
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' })
+  }
+}
