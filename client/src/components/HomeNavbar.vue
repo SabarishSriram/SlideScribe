@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LogOut, Settings } from "lucide-vue-next";
+import { LogOut, Settings, GithubIcon } from "lucide-vue-next";
 import Button from "./ui/button/Button.vue";
 import DropdownMenu from "./ui/dropdown-menu/DropdownMenu.vue";
 import DropdownMenuContent from "./ui/dropdown-menu/DropdownMenuContent.vue";
@@ -18,12 +18,12 @@ const props = defineProps<{
   user: User | null; // Explicitly include null in the type
 }>();
 
-const handleLogout = async() => {
-  const res=await fetch("http://localhost:4000/api/auth/logout", {
-    method:"GET",
+const handleLogout = async () => {
+  const res = await fetch("http://localhost:4000/api/auth/logout", {
+    method: "GET",
     credentials: "include", // Important to include session cookie
   });
-  console.log(res)
+  console.log(res);
   window.location.href = "/";
 };
 </script>
@@ -36,9 +36,7 @@ const handleLogout = async() => {
       class="container flex justify-between items-center mx-auto px-6 md:px-10"
     >
       <div class="flex items-center justify-between h-20">
-        <div class="md:hidden bg-white">
-        hi
-      </div>
+        <div class="md:hidden bg-white">hi</div>
         <!-- Logo and Brand -->
         <div class="flex items-center gap-3">
           <img src="/smile.svg" alt="" class="w-8" />
@@ -49,7 +47,19 @@ const handleLogout = async() => {
           </div>
         </div>
       </div>
-      <div>
+      <div class="flex justify-center gap-5 items-center">
+        <div>
+          <a
+            target="_blank"
+            href="https://github.com/SabarishSriram/SlideScribe"
+          >
+            <button
+              class="text-white gap-2 flex items-center justify-center font-bold text-sm px-3 py-2 rounded-md bg-black"
+            >
+              <GithubIcon class="w-4" /> GitHub
+            </button>
+          </a>
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <div className="w-full h-full rounded-full overflow-hidden">
@@ -60,7 +70,11 @@ const handleLogout = async() => {
             <DropdownMenuLabel>
               <div className="flex items-center gap-3 px-3 py-2">
                 <div className="h-full rounded-full overflow-hidden">
-                  <img :src="user?.image" class="w-11" />
+                  <img
+                    @error=""
+                    :src="user?.image"
+                    class="w-11"
+                  />
                 </div>
                 <div className="font-bold">
                   <p className="font text-white text-sm">{{ user?.name }}</p>
