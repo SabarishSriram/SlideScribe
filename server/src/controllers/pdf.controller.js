@@ -46,3 +46,18 @@ export const getPDF= async(req,res)=>{
     res.status(500).json({ error: 'Server error' })
   }
 }
+
+export const getAllNotes=async(req,res)=>{
+  const {userId}= req.params
+  console.log(userId)
+
+  try{
+    const allnotes= await prisma.note.findMany({
+      where:{userId}
+    })
+    res.json(allnotes)
+  } catch(error){
+        res.status(500).json({ error: 'Server error' })
+  }
+
+}
