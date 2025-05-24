@@ -2,7 +2,6 @@
 import { ref, onMounted } from "vue";
 import { marked } from "marked"; // Import marked for Markdown parsing
 import { useRoute } from "vue-router";
-import axios from "axios";
 
 const route = useRoute();
 const noteid = route.params.id;
@@ -31,6 +30,7 @@ onMounted(async () => {
     if (response) {
       const data = await response.json();
       generatedText.value = data.content;
+      console.log(generatedText.value)
       topics.value = extractTopics(generatedText.value); // Extract topics after fetching
     }
   } catch (error) {

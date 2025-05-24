@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
@@ -13,13 +13,45 @@ import {
   DialogTitle,
   DialogDescription,
   DialogHeader,
-  DialogClose,
 } from "./ui/dialog";
 
 const fileInput = ref<HTMLInputElement | null>(null);
 const router = useRouter();
 const title = ref("");
 const fileName = ref<string | null>(null);
+const notes = ref([]);
+const loading = ref(true);
+const userId = ref(null);
+
+const fetchUserId = async () => {
+  try {
+    const res = await fetch("http://localhost:4000/api/auth/profile", {
+      credentials: "include", // 👈 ensures cookies (session) are sent
+    });
+    const user = await res.json();
+    userId.value = user.id;
+    console.log(userId.value);
+  } catch (err) {
+    console.error("Failed to fetch profile:", err);
+  }
+};
+const fetchNotes = async () => {
+  try {
+    const res = await fetch(
+      `http://localhost:4000/api/allnotes/${userId.value}`
+    );
+    notes.value = await res.json();
+    console.log(notes.value);
+  } catch (err) {
+    console.error("Failed to fetch notes:", err);
+  } finally {
+    loading.value = false;
+  }
+};
+onMounted(async () => {
+  await fetchUserId();
+  await fetchNotes();
+});
 
 const handleFileSelect = () => {
   const file = fileInput.value?.files?.[0];
@@ -35,12 +67,11 @@ const handleFileChange = async () => {
   formData.append("file", file);
   formData.append("title", title.value);
 
-
   try {
     const res = await fetch("http://localhost:4000/api/upload", {
       method: "POST",
       body: formData,
-      credentials:"include"
+      credentials: "include",
     });
 
     if (!res.ok) throw new Error("Upload failed");
@@ -54,7 +85,14 @@ const handleFileChange = async () => {
 </script>
 
 <template>
-  <div class="flex justify-end">
+  <div class="flex justify-between items-center">
+    <div>
+      <h2 class="text-white font-bold text-xl">Your Notes</h2>
+      <p class="text-gray-400 text-sm">
+        Uploaded Notes will be displayed here.
+      </p>
+    </div>
+
     <Dialog>
       <!-- Trigger -->
       <DialogTrigger as-child>
@@ -110,6 +148,22 @@ const handleFileChange = async () => {
   </div>
 
   <div class="mt-4">
-    <Card>hi</Card>
+    <div v-if="loading">Loading...</div>
+    <div v-else-if="notes.length === 0">No notes found.</div>
+    <ul v-else class="text-white flex">
+      <li class=" w-60 border border-[]" v-for="note in notes" :key="note.id">
+        <div class="bg-white">
+          <img src="../assets/pdf.png" alt="" />
+        </div>
+        <a
+          :href="`/notes/${note.id}`"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-white hover:underline"
+        >
+          {{ note.title }}
+        </a>
+      </li>
+    </ul>
   </div>
 </template>
