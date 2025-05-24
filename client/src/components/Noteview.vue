@@ -43,14 +43,14 @@ onMounted(async () => {
   <div class="flex items-start gap-6">
     <div
       v-if="generatedText"
-      class="bg-slate-800 p-5 rounded-lg shadow-md mt-5"
+      class="bg-[#0F172A] p-5 rounded-lg shadow-md mt-5"
     >
       <h3>Generated Notes:</h3>
       <!-- Use v-html to render parsed HTML from the Markdown -->
       <div class="markdown-content" v-html="parseMarkdown(generatedText)"></div>
     </div>
     <div
-      class="text-red-700 font-bold rounded-md px-6 mr-6 py-2 bg-slate-800 mt-6"
+      class="text-[#FF4550] font-bold rounded-md px-6 mr-6 py-2 bg-[#0F172A] mt-6"
     >
       Topics:
       <ul v-if="topics.length" class="list-disc pl-5 text-white mt-2">
@@ -65,15 +65,18 @@ onMounted(async () => {
 <style>
 /* Apply styles directly to the elements */
 .markdown-content h1 {
-  @apply text-2xl font-bold  text-red-700 border-b-4 border-red-700 pb-1 mt-5;
+  @apply text-2xl font-bold  text-[#FF4550] border-b-4 border-[#FF4550] pb-1 mt-5;
 }
 
 .markdown-content h2 {
-  @apply text-xl font-semibold bg-slate-800 rounded-md text-red-600 border-l-4 border-red-600 pl-3 mt-4;
+  @apply text-xl font-semibold bg-slate-800 rounded-md text-[#FF4550] border-l-4 border-[#FF4550] pl-3 mt-4;
+}
+.markdown-content h3 {
+  @apply text-lg  rounded-md text-[#FF4550]  pl-3 mt-4;
 }
 
 .markdown-content ul {
-  @apply list-disc  pl-6 mt-2;
+  @apply list-disc text-slate-500  pl-6 mt-2;
 }
 
 .markdown-content li {
@@ -84,7 +87,7 @@ onMounted(async () => {
 }
 
 .markdown-content strong {
-  @apply text-red-700 bg-slate-900 p-1 rounded-md font-bold;
+  @apply text-[#FF4550] bg-slate-900 p-1 rounded-md font-bold;
 }
 body {
   background: black;
