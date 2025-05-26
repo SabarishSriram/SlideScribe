@@ -2,7 +2,6 @@
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { Button } from "./ui/button";
-import { Card } from "./ui/card";
 import { FilePlus2 } from "lucide-vue-next";
 
 // Dialog Components from shadcn-vue
