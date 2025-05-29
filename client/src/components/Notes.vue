@@ -151,18 +151,18 @@ const handleFileChange = async () => {
   <div class="mt-4">
     <div v-if="loading">Loading...</div>
     <div v-else-if="notes.length === 0">No notes found.</div>
-    <ul v-else class="text-white flex">
-      <li class=" w-60 border border-[]" v-for="note in notes" :key="note.id">
+    <ul v-else class="text-white flex gap-2">
+      <li class=" w-60 rounded-lg" v-for="note in notes" :key="note.id">
+        <a
+          :href="`/notes/${note.id}`"
+        >
         <div class="bg-white">
           <img src="../assets/pdf.png" alt="" />
         </div>
-        <a
-          :href="`/notes/${note.id}`"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-white hover:underline"
-        >
+        <p rel="noopener noreferrer"
+          class="text-white hover:underline bg-[#0F172A]">
           {{ note.title }}
+        </p>
         </a>
       </li>
     </ul>
