@@ -37,7 +37,9 @@ const fetchUserId = async () => {
 const fetchNotes = async () => {
   try {
     const res = await fetch(
-      `http://localhost:4000/api/allnotes/${userId.value}`
+      `http://localhost:4000/api/allnotes/${userId.value}`,{
+        credentials:"include"
+      }
     );
     notes.value = await res.json();
     console.log(notes.value);

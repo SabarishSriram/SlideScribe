@@ -19,7 +19,7 @@ const parseMarkdown = (text: string) => {
 
 // Function to extract topics dynamically
 const extractTopics = (text: string) => {
-  loading.value=false;
+  loading.value = false;
   return text
     .split("\n") // Split text into lines
     .filter((line) => line.startsWith("#")) // Get lines with headings
@@ -28,7 +28,9 @@ const extractTopics = (text: string) => {
 // Fetch text file on mount
 onMounted(async () => {
   try {
-    const response = await fetch(`http://localhost:4000/api/notes/${noteid}`);
+    const response = await fetch(`http://localhost:4000/api/notes/${noteid}`, {
+      credentials: "include",
+    });
     if (response) {
       const data = await response.json();
       generatedText.value = data.content;
@@ -43,7 +45,7 @@ onMounted(async () => {
 
 <template>
   <div class="flex justify-center items-center h-screen" v-if="loading">
-    <img class="w-16" src="../assets/spinner.svg" alt="">
+    <img class="w-16" src="../assets/spinner.svg" alt="" />
   </div>
   <div v-else>
     <div class="flex items-start gap-6">

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { LogOut, Settings, GithubIcon } from "lucide-vue-next";
-import Button from "./ui/button/Button.vue";
 import DropdownMenu from "./ui/dropdown-menu/DropdownMenu.vue";
 import DropdownMenuContent from "./ui/dropdown-menu/DropdownMenuContent.vue";
 import DropdownMenuItem from "./ui/dropdown-menu/DropdownMenuItem.vue";

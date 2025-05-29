@@ -13,7 +13,7 @@ import AuthButton from "./AuthButton.vue";
 
 <template>
   <nav
-    class="w-full bg-[black] text-[hsl(var(--sidebar-primary))] border-b border-[hsl(var(--sidebar-border))] dark"
+    class="w-full bg-[#0F172A] text-[hsl(var(--sidebar-primary))] border-[hsl(var(--sidebar-border))] dark"
   >
     <div
       class="container flex justify-between items-center mx-auto px-6 md:px-10"
