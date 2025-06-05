@@ -38,14 +38,14 @@ onMounted(async () => {
     <Navbar />
 
     <!-- Hero Section -->
-    <div class="container mx-auto px-6 pt-32 pb-24">
+    <div class="container mx-auto px-12 pt-24 pb-24">
       <div class="flex flex-col items-center text-center">
         <!-- Main Heading with Animation -->
         <h1
           class="text-4xl md:text-6xl font-bold text-white mb-6 animate-fade-in"
         >
           Transform Your <span class="text-[#FF4550]">Slides</span> into
-          <span class="text-[#FF4550]">Smart Notes</span>
+          <span class="text-[#FF4550] lg:block">Smart Notes</span>
         </h1>
 
         <!-- Subheading -->
