@@ -34,7 +34,7 @@ import AuthButton from "./AuthButton.vue";
           <DialogTrigger>
             <Button class="font-semibold">Get Started</Button>
           </DialogTrigger>
-          <DialogContent class="dark border-black text-white max-w-sm">
+          <DialogContent class="dark border-black bg-[#0F172A] text-white max-w-sm">
             <DialogHeader>
               <DialogTitle
                 className="flex items-center py-5 space-x-2 justify-center"
