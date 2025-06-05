@@ -17,7 +17,7 @@ import { ArrowRight } from "lucide-vue-next";
     class="w-full bg-[#0F172A] text-[hsl(var(--sidebar-primary))] border-[hsl(var(--sidebar-border))] dark"
   >
     <div
-      class="container flex justify-between items-center mx-auto px-4 sm:px-6 md:px-10"
+      class="container  flex justify-between items-center mx-auto px-4 sm:px-6 md:px-10"
     >
       <div class="flex items-center justify-between h-16 sm:h-20">
         <!-- Logo and Brand -->
@@ -26,7 +26,7 @@ import { ArrowRight } from "lucide-vue-next";
           <div class="flex-shrink-0">
             <a
               href="#"
-              class="text-inherit font-semibold text-xl sm:text-2xl whitespace-nowrap"
+              class="text-inherit cursor-none font-semibold text-xl sm:text-2xl whitespace-nowrap"
             >
               SlideS<span class="text-white">cribe</span>
             </a>
