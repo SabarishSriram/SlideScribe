@@ -16,16 +16,14 @@ const logIn = (provider) => {
   <div class="text-white">
     <Button
       v-if="loading === 'google'"
-      variant="outline"
-      class="text-base mb-3 w-full cursor-not-allowed"
+      class="text-base bg-black text-white mb-3 w-full cursor-not-allowed"
     >
       <Loader2 stroke-width="3" class="text-primary animate-spin" />
     </Button>
     <Button
       v-else
-      variant="outline"
       @click="logIn('google')"
-      class="text-base mb-3 hover:bg-[#fb444f] w-full flex justify-center items-center"
+      class="text-base mb-3 bg-black text-white hover:bg-[#fb444f] w-full flex justify-center items-center"
     >
       <img :src="google" alt="Google icon" class="size-5" />
       Sign in with Google
@@ -33,16 +31,14 @@ const logIn = (provider) => {
 
     <Button
       v-if="loading === 'github'"
-      variant="outline"
-      class="text-base w-full cursor-not-allowed"
+      class="text-base bg-black text-white w-full cursor-not-allowed"
     >
       <Loader2 stroke-width="3" class="size-7 animate-spin text-primary" />
     </Button>
     <Button
       v-else
-      variant="outline"
       @click="logIn('github')"
-      class="text-base w-full hover:bg-[#fb444f] flex justify-center items-center"
+      class="text-base bg-black text-white w-full hover:bg-[#fb444f] flex justify-center items-center"
     >
       <img :src="github" alt="Github icon" class="size-5" />
       Sign in with Github
