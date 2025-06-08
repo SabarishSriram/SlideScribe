@@ -2,7 +2,7 @@
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { Button } from "./ui/button";
-import { FilePlus2 } from "lucide-vue-next";
+import { FilePlus2, Loader2 } from "lucide-vue-next";
 
 // Dialog Components from shadcn-vue
 import {
@@ -21,6 +21,7 @@ const fileName = ref<string | null>(null);
 const notes = ref([]);
 const loading = ref(true);
 const userId = ref(null);
+const isUploading = ref(false);
 
 const fetchUserId = async () => {
   try {
@@ -70,6 +71,7 @@ const handleFileChange = async () => {
   formData.append("title", title.value);
 
   try {
+    isUploading.value = true;
     const res = await fetch("http://localhost:4000/api/upload", {
       method: "POST",
       body: formData,
@@ -82,6 +84,8 @@ const handleFileChange = async () => {
     router.push(`/notes/${data.id}`);
   } catch (err) {
     console.error("Error uploading file:", err);
+  } finally {
+    isUploading.value = false;
   }
 };
 </script>
@@ -142,9 +146,14 @@ const handleFileChange = async () => {
 
         <!-- Optional Close Button -->
 
-        <Button class="mt-4 text-white" @click="handleFileChange"
-          >Upload</Button
+        <Button
+          class="mt-4 w-full bg-[#FB444F] hover:bg-[#FB444F]/90 disabled:opacity-50 text-white"
+          @click="handleFileChange"
+          :disabled="isUploading"
         >
+          <Loader2 v-if="isUploading" class="w-4 h-4 animate-spin mr-2" />
+          {{ isUploading ? "Uploading..." : "Upload Document" }}
+        </Button>
       </DialogContent>
     </Dialog>
   </div>

@@ -81,7 +81,7 @@ onMounted(async () => {
         <Button
           @click="handleBack"
           variant="outline"
-          class=" border-slate-700 hover:bg-[#FB444F]  bg-slate-800 text-[#FB444F]"
+          class="border-slate-700 hover:bg-[#FB444F] bg-slate-800 text-[#FB444F]"
         >
           <ArrowLeft class="w-4 h-4 mr-2" />
           Back to Notes
@@ -194,7 +194,7 @@ onMounted(async () => {
 }
 
 .markdown-content a {
-    @apply text-[#FB444F] hover:text-red-300 underline-offset-2 hover:underline;
+  @apply text-[#FB444F] hover:text-red-300 underline-offset-2 hover:underline;
 }
 
 .markdown-content hr {
