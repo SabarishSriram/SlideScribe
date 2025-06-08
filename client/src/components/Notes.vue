@@ -37,8 +37,9 @@ const fetchUserId = async () => {
 const fetchNotes = async () => {
   try {
     const res = await fetch(
-      `http://localhost:4000/api/allnotes/${userId.value}`,{
-        credentials:"include"
+      `http://localhost:4000/api/allnotes/${userId.value}`,
+      {
+        credentials: "include",
       }
     );
     notes.value = await res.json();
@@ -149,22 +150,48 @@ const handleFileChange = async () => {
   </div>
 
   <div class="mt-4">
-    <div v-if="loading">Loading...</div>
-    <div v-else-if="notes.length === 0">No notes found.</div>
-    <ul v-else class="text-white flex gap-2">
-      <li class=" w-60 rounded-lg" v-for="note in notes" :key="note.id">
-        <a
-          :href="`/notes/${note.id}`"
-        >
-        <div class="bg-white">
-          <img src="../assets/pdf.png" alt="" />
+    <div v-if="loading" class="flex justify-center items-center min-h-[200px]">
+      <div
+        class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-red-500"
+      ></div>
+    </div>
+    <div v-else-if="notes.length === 0" class="text-center py-12">
+      <div class="text-gray-400 text-lg">No notes found.</div>
+      <p class="text-gray-500 mt-2">
+        Upload your first document to get started!
+      </p>
+    </div>
+    <div
+      v-else
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+    >
+      <router-link
+        v-for="note in notes"
+        :key="note.id"
+        :to="`/notes/${note.id}`"
+        class="group bg-[#0F172A] rounded-xl overflow-hidden border border-slate-800 hover:border-red-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-red-500/10"
+      >
+        <div class="aspect-[4/3] relative bg-slate-900/50 overflow-hidden">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <img
+              src="../assets/pdf.png"
+              alt="PDF Preview"
+              class="w-20 h-20 object-contain opacity-80 group-hover:scale-110 transition-transform duration-300"
+            />
+          </div>
+          <div
+            class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#0F172A] to-transparent"
+          ></div>
         </div>
-        <p rel="noopener noreferrer"
-          class="text-white hover:underline bg-[#0F172A]">
-          {{ note.title }}
-        </p>
-        </a>
-      </li>
-    </ul>
+        <div class="p-4">
+          <h3
+            class="text-white font-medium text-sm truncate group-hover:text-red-500 transition-colors"
+          >
+            {{ note.title }}
+          </h3>
+          <p class="text-slate-400 text-xs mt-1">Click to view notes</p>
+        </div>
+      </router-link>
+    </div>
   </div>
 </template>

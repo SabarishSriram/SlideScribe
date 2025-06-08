@@ -1,6 +1,6 @@
 <!-- Layout.vue -->
 <template>
-  <div class="min-h-screen w-full flex flex-col">
+  <div class="min-h-screen w-full flex flex-col bg-black">
     <HomeNavbar :user="user" />
 
     <div class="flex flex-1">

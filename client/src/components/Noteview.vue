@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { marked } from "marked"; // Import marked for Markdown parsing
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import { Button } from "./ui/button";
+import { ArrowLeft, BookOpen } from "lucide-vue-next";
 
 const route = useRoute();
+const router = useRouter();
 const noteid = route.params.id;
 const generatedText = ref(""); // Store the raw generated text
 const topics = ref<string[]>([]); // Store extracted topics
 const loading = ref(true); // Spinner control
+const title = ref("");
 
 // Function to parse Markdown to HTML
 const parseMarkdown = (text: string) => {
@@ -25,6 +29,11 @@ const extractTopics = (text: string) => {
     .filter((line) => line.startsWith("#")) // Get lines with headings
     .map((line) => line.replace(/^#+\s*/, "")); // Remove # symbols
 };
+
+const handleBack = () => {
+  router.back();
+};
+
 // Fetch text file on mount
 onMounted(async () => {
   try {
@@ -34,7 +43,7 @@ onMounted(async () => {
     if (response) {
       const data = await response.json();
       generatedText.value = data.content;
-      console.log(generatedText.value);
+      title.value = data.title || "Untitled Note";
       topics.value = extractTopics(generatedText.value); // Extract topics after fetching
     }
   } catch (error) {
@@ -44,60 +53,166 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex justify-center items-center h-screen" v-if="loading">
-    <img class="w-16" src="../assets/spinner.svg" alt="" />
-  </div>
-  <div v-else>
-    <div class="flex items-start gap-6">
-      <div
-        v-if="generatedText"
-        class="bg-[#0F172A] p-5 rounded-lg shadow-md mt-5"
-      >
-        <!-- Use v-html to render parsed HTML from the Markdown -->
+  <div class="min-h-screen pb-12 bg-black">
+    <!-- Loading State -->
+    <div class="flex justify-center items-center min-h-[50vh]" v-if="loading">
+      <div class="flex flex-col items-center gap-4">
         <div
-          class="markdown-content"
-          v-html="parseMarkdown(generatedText)"
+          class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-red-500"
         ></div>
+        <p class="text-gray-400">Loading your notes...</p>
       </div>
-      <div class="font-bold rounded-md px-6 mr-6 py-2 bg-[#0F172A] mt-6">
-        <ul v-if="topics.length" class="list-disc pl-5 text-white mt-2">
-          <p class="text-[#FF4550] font-bold">Topics:</p>
-          <li v-for="(topic, index) in topics" :key="index">
-            {{ topic }}
-          </li>
-        </ul>
+    </div>
+
+    <!-- Content -->
+    <div v-else class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="flex justify-between items-center py-6">
+        <div>
+          <h1
+            class="text-2xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent"
+          >
+            {{ title }}
+          </h1>
+          <p class="text-gray-400 text-sm mt-1">
+            Generated notes from your document
+          </p>
+        </div>
+        <Button
+          @click="handleBack"
+          variant="outline"
+          class=" border-slate-700 hover:bg-[#FB444F]  bg-slate-800 text-[#FB444F]"
+        >
+          <ArrowLeft class="w-4 h-4 mr-2" />
+          Back to Notes
+        </Button>
+      </div>
+
+      <!-- Main Content -->
+      <div class="flex flex-col lg:flex-row gap-6">
+        <!-- Topics Sidebar -->
+        <div class="lg:w-64 order-2 lg:order-1">
+          <div class="sticky top-6">
+            <div
+              v-if="topics.length"
+              class="bg-[#0F172A] rounded-xl border border-slate-800 overflow-hidden"
+            >
+              <div class="p-4 border-b border-slate-800">
+                <div class="flex items-center gap-2 text-red-500">
+                  <BookOpen class="w-4 h-4" />
+                  <h2 class="font-semibold">Table of Contents</h2>
+                </div>
+              </div>
+              <nav class="p-4">
+                <ul class="space-y-2">
+                  <li
+                    v-for="(topic, index) in topics"
+                    :key="index"
+                    class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer"
+                  >
+                    {{ topic }}
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div
+          v-if="generatedText"
+          class="flex-1 order-1 lg:order-2 bg-[#0F172A] p-6 lg:p-8 rounded-xl border border-slate-800 shadow-lg"
+        >
+          <div class="prose prose-invert max-w-none">
+            <div
+              class="markdown-content"
+              v-html="parseMarkdown(generatedText)"
+            ></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
+
 <style>
-/* Apply styles directly to the elements */
+/* Base styles for markdown content */
+.markdown-content {
+  @apply text-gray-200;
+}
+
 .markdown-content h1 {
-  @apply text-2xl font-bold  text-[#FF4550] border-b-4 border-[#FF4550] pb-1 mt-5;
+  @apply text-3xl font-bold text-white border-b-2 border-red-500/30 pb-3 mb-6 mt-8;
 }
 
 .markdown-content h2 {
-  @apply text-xl font-semibold bg-slate-800 rounded-md text-[#FF4550] border-l-4 border-[#FF4550] pl-3 mt-4;
+  @apply text-2xl font-semibold text-white border-l-4 border-red-500 pl-4 py-2 my-6 bg-slate-800/50 rounded-r-lg;
 }
+
 .markdown-content h3 {
-  @apply text-lg  rounded-md text-[#FF4550]  pl-3 mt-4;
+  @apply text-xl font-medium text-[#FB444F] mt-6 mb-4;
 }
 
 .markdown-content ul {
-  @apply list-disc text-slate-500  pl-6 mt-2;
+  @apply space-y-2 my-4 ml-6 list-disc marker:text-[#FB444F];
+}
+
+.markdown-content ol {
+  @apply space-y-2 my-4 ml-6 list-decimal marker:text-[#FB444F];
 }
 
 .markdown-content li {
-  @apply text-base text-white mb-1;
+  @apply text-gray-300 leading-relaxed;
 }
+
 .markdown-content p {
-  @apply text-base text-white mb-1;
+  @apply text-gray-300 leading-relaxed mb-4;
 }
 
 .markdown-content strong {
-  @apply text-[#FF4550] bg-slate-900 p-1 rounded-md font-bold;
+  @apply font-semibold text-[#FB444F] bg-slate-800/50 px-1.5 py-0.5 rounded;
 }
-body {
-  background: black;
+
+.markdown-content blockquote {
+  @apply border-l-4 border-[#FB444F]/30 pl-4 my-4 italic text-gray-400;
+}
+
+.markdown-content code {
+  @apply bg-slate-800 px-1.5 py-0.5 rounded text-[#FB444F] text-sm;
+}
+
+.markdown-content pre {
+  @apply bg-slate-800 p-4 rounded-lg my-4 overflow-x-auto;
+}
+
+.markdown-content pre code {
+  @apply bg-transparent p-0 text-gray-300;
+}
+
+.markdown-content img {
+  @apply rounded-lg shadow-lg my-6 max-w-full;
+}
+
+.markdown-content a {
+    @apply text-[#FB444F] hover:text-red-300 underline-offset-2 hover:underline;
+}
+
+.markdown-content hr {
+  @apply my-8 border-slate-800;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .markdown-content h1 {
+    @apply text-2xl;
+  }
+
+  .markdown-content h2 {
+    @apply text-xl;
+  }
+
+  .markdown-content h3 {
+    @apply text-lg;
+  }
 }
 </style>
