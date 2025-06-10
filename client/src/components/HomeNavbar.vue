@@ -7,22 +7,22 @@ import DropdownMenuLabel from "./ui/dropdown-menu/DropdownMenuLabel.vue";
 import DropdownMenuSeparator from "./ui/dropdown-menu/DropdownMenuSeparator.vue";
 import DropdownMenuTrigger from "./ui/dropdown-menu/DropdownMenuTrigger.vue";
 
+
 interface User {
   name?: string;
   email?: string;
   image?: string;
 }
-
 const props = defineProps<{
-  user: User | null; // Explicitly include null in the type
+  user: User | null;
 }>();
+
 
 const handleLogout = async () => {
   const res = await fetch("http://localhost:4000/api/auth/logout", {
     method: "GET",
     credentials: "include", // Important to include session cookie
   });
-  console.log(res);
   window.location.href = "/";
 };
 </script>
@@ -62,7 +62,11 @@ const handleLogout = async () => {
         <DropdownMenu>
           <DropdownMenuTrigger>
             <div className="w-full h-full rounded-full overflow-hidden">
-              <img :src="user?.image" class="w-11" />
+              <img
+                :src="user?.image"
+                class="w-11 h-11 object-cover"
+                alt="Profile"
+              />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent class="bg-[#0F172A] border-[#472E30]">
@@ -70,9 +74,9 @@ const handleLogout = async () => {
               <div className="flex items-center gap-3 px-3 py-2">
                 <div className="h-full rounded-full overflow-hidden">
                   <img
-                    @error=""
                     :src="user?.image"
-                    class="w-11"
+                    class="w-11 h-11 object-cover"
+                    alt="Profile"
                   />
                 </div>
                 <div className="font-bold">
