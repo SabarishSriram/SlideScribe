@@ -7,7 +7,6 @@ import DropdownMenuLabel from "./ui/dropdown-menu/DropdownMenuLabel.vue";
 import DropdownMenuSeparator from "./ui/dropdown-menu/DropdownMenuSeparator.vue";
 import DropdownMenuTrigger from "./ui/dropdown-menu/DropdownMenuTrigger.vue";
 
-
 interface User {
   name?: string;
   email?: string;
@@ -16,7 +15,6 @@ interface User {
 const props = defineProps<{
   user: User | null;
 }>();
-
 
 const handleLogout = async () => {
   const res = await fetch("http://localhost:4000/api/auth/logout", {
@@ -35,8 +33,6 @@ const handleLogout = async () => {
       class="container flex justify-between items-center mx-auto px-6 md:px-10"
     >
       <div class="flex items-center justify-between h-20">
-        <div class="md:hidden bg-white">hi</div>
-        <!-- Logo and Brand -->
         <div class="flex items-center gap-3">
           <img src="/smile.svg" alt="" class="w-8" />
           <div class="flex-shrink-0">

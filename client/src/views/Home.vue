@@ -111,7 +111,7 @@ onMounted(async () => {
             <Dialog>
               <DialogTrigger>
                 <Button
-                  class="bg-[#FF4550] hover:bg-[#FF4550]/90 text-white px-8 py-6 text-lg font-semibold rounded-xl flex items-center gap-2 interactive-element"
+                  class="bg-[#FF4550] hover:bg-[#FF4550]/90 text-white hover:cursor-none px-8 py-6 text-lg font-semibold rounded-xl flex items-center gap-2 interactive-element"
                 >
                   Get Started <ArrowRight class="w-5 h-5" />
                 </Button>

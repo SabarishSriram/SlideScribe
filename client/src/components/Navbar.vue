@@ -37,7 +37,7 @@ import { ArrowRight } from "lucide-vue-next";
         <Dialog>
           <DialogTrigger>
             <Button
-              class="bg-[#FF4550] hover:bg-[#FF4550]/90 text-white px-2 py-2 sm:px-3 sm:py-3 text-sm sm:text-base font-semibold rounded-lg flex items-center gap-1 sm:gap-2 transition-all duration-300 hover:scale-105"
+              class="bg-[#FF4550] hover:bg-[#FF4550]/90 text-white px-2 py-2 sm:px-4 sm:py-5 text-sm sm:text-base font-semibold rounded-lg flex items-center gap-1 sm:gap-2 transition-all duration-300 hover:scale-105"
             >
               <span class="hidden sm:inline">Get Started</span>
               <span class="sm:hidden"
