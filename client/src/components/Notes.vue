@@ -102,14 +102,18 @@ const handleFileChange = async () => {
     <Dialog>
       <!-- Trigger -->
       <DialogTrigger as-child>
-        <Button class="text-white py-5 flex items-center font-semibold gap-2">
-          <FilePlus2 :stroke-width="3" :size="20" />
-          Upload PDF/PPT
+        <Button
+          class="text-white py-3 sm:py-5 px-4 sm:px-6 flex items-center font-semibold gap-2 text-sm sm:text-base rounded-lg"
+        >
+          <FilePlus2 :stroke-width="3" class="w-4 h-4 sm:w-5 sm:h-5" />
+          <span class="whitespace-nowrap">Upload PDF/PPT</span>
         </Button>
       </DialogTrigger>
 
       <!-- Content -->
-      <DialogContent class="sm:max-w-lg bg-[#0F172A] text-white border-none">
+      <DialogContent
+        class="max-w-[95vw] sm:max-w-lg bg-[#0F172A] text-white border-none p-4 sm:p-6"
+      >
         <DialogHeader>
           <DialogTitle>Upload File</DialogTitle>
           <DialogDescription class="text-gray-400">
@@ -147,12 +151,14 @@ const handleFileChange = async () => {
         <!-- Optional Close Button -->
 
         <Button
-          class="mt-4 w-full bg-[#FB444F] hover:bg-[#FB444F]/90 disabled:opacity-50 text-white"
+          class="mt-4 w-full bg-[#FB444F] hover:bg-[#FB444F]/90 disabled:opacity-50 text-white py-2 sm:py-3 text-sm sm:text-base rounded-lg"
           @click="handleFileChange"
           :disabled="isUploading"
         >
           <Loader2 v-if="isUploading" class="w-4 h-4 animate-spin mr-2" />
-          {{ isUploading ? "Uploading..." : "Upload Document" }}
+          <span class="whitespace-nowrap">{{
+            isUploading ? "Uploading..." : "Upload Document"
+          }}</span>
         </Button>
       </DialogContent>
     </Dialog>

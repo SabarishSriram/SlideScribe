@@ -81,10 +81,11 @@ onMounted(async () => {
         <Button
           @click="handleBack"
           variant="outline"
-          class="border-slate-700 hover:bg-[#FB444F] bg-slate-800 text-[#FB444F]"
+          class="border-slate-700 hover:bg-[#FB444F] bg-slate-800 text-[#FB444F] px-3 sm:px-4 py-2 text-sm sm:text-base"
         >
-          <ArrowLeft class="w-4 h-4 mr-2" />
-          Back to Notes
+          <ArrowLeft class="w-4 h-4 mr-1 sm:mr-2" />
+          <span class="hidden sm:inline">Back to Notes</span>
+          <span class="sm:hidden">Back</span>
         </Button>
       </div>
 

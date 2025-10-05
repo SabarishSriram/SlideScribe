@@ -29,7 +29,7 @@
               v-model="user.name"
               type="text"
               placeholder="Full Name"
-              class=" rounded-md bg-black text-white p-2"
+              class="rounded-md bg-black text-white p-2"
             />
             <!-- <p class="text-red-500 text-sm">{{ errors.name }}</p> -->
           </div>
@@ -46,9 +46,9 @@
 
           <button
             type="submit"
-            class="px-10 py-2 bg-[#fb444f] text-white rounded-md mt-5"
+            class="px-4 sm:px-10 py-2 sm:py-3 bg-[#fb444f] hover:bg-[#fb444f]/90 text-white rounded-md mt-5 text-sm sm:text-base font-medium transition-colors"
           >
-            Save Changes
+            <span class="whitespace-nowrap">Save Changes</span>
           </button>
         </div>
       </form>
@@ -73,4 +73,3 @@ onMounted(async () => {
   user.image = data.image;
 });
 </script>
-

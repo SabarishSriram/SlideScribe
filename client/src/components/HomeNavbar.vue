@@ -49,9 +49,11 @@ const handleLogout = async () => {
             href="https://github.com/SabarishSriram/SlideScribe"
           >
             <button
-              class="text-white gap-2 flex items-center justify-center font-bold text-sm px-3 py-2 rounded-md bg-black"
+              class="text-white gap-1 sm:gap-2 flex items-center justify-center font-bold text-xs sm:text-sm px-2 sm:px-3 py-2 rounded-md bg-black hover:bg-gray-800 transition-colors"
             >
-              <GithubIcon class="w-4" /> GitHub
+              <GithubIcon class="w-3 sm:w-4" />
+              <span class="hidden sm:inline">GitHub</span>
+              <span class="sm:hidden">Git</span>
             </button>
           </a>
         </div>
@@ -96,10 +98,10 @@ const handleLogout = async () => {
 
             <DropdownMenuItem class="p-0 rounded-lg">
               <button
-                class="w-full text-white flex items-center gap-3 py-2 hover:bg-[#FF4550] rounded-lg transition-colors"
+                class="w-full text-white flex items-center gap-2 sm:gap-3 py-2 hover:bg-[#FF4550] rounded-lg transition-colors text-sm sm:text-base"
                 @click="handleLogout"
               >
-                <LogOut :size="17" class="ml-3" />
+                <LogOut :size="16" class="ml-2 sm:ml-3 sm:size-17" />
                 Logout
               </button>
             </DropdownMenuItem>

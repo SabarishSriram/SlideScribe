@@ -111,13 +111,14 @@ onMounted(async () => {
             <Dialog>
               <DialogTrigger>
                 <Button
-                  class="bg-[#FF4550] hover:bg-[#FF4550]/90 text-white hover:cursor-none px-8 py-6 text-lg font-semibold rounded-xl flex items-center gap-2 interactive-element"
+                  class="bg-[#FF4550] hover:bg-[#FF4550]/90 text-white hover:cursor-none px-4 sm:px-8 py-3 sm:py-6 text-base sm:text-lg font-semibold rounded-xl flex items-center gap-2 interactive-element min-w-fit"
                 >
-                  Get Started <ArrowRight class="w-5 h-5" />
+                  <span class="whitespace-nowrap">Get Started</span>
+                  <ArrowRight class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                 </Button>
               </DialogTrigger>
               <DialogContent
-                class="dark border-black text-white max-w-sm bg-[#0F172A]"
+                class="dark border-black text-white max-w-[95vw] sm:max-w-md bg-[#0F172A] p-4 sm:p-6"
               >
                 <DialogHeader>
                   <DialogTitle

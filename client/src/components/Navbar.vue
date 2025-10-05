@@ -17,7 +17,7 @@ import { ArrowRight } from "lucide-vue-next";
     class="w-full bg-[#0F172A] text-[hsl(var(--sidebar-primary))] border-[hsl(var(--sidebar-border))] dark"
   >
     <div
-      class="container  flex justify-between items-center mx-auto px-4 sm:px-6 md:px-10"
+      class="container flex justify-between items-center mx-auto px-4 sm:px-6 md:px-10"
     >
       <div class="flex items-center justify-between h-16 sm:h-20">
         <!-- Logo and Brand -->
@@ -37,17 +37,14 @@ import { ArrowRight } from "lucide-vue-next";
         <Dialog>
           <DialogTrigger>
             <Button
-              class="bg-[#FF4550] hover:bg-[#FF4550]/90 text-white px-2 py-2 sm:px-4 sm:py-5 text-sm sm:text-base font-semibold rounded-lg flex items-center gap-1 sm:gap-2 transition-all duration-300 hover:scale-105"
+              class="bg-[#FF4550] hover:bg-[#FF4550]/90 text-white px-3 py-2 sm:px-6 sm:py-3 text-sm sm:text-base font-semibold rounded-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 min-w-fit"
             >
-              <span class="hidden sm:inline">Get Started</span>
-              <span class="sm:hidden"
-                >Get Started <ArrowRight class="w-4 h-4 sm:w-5 sm:h-5"
-              /></span>
-              <ArrowRight class="w-4 hidden sm:inline h-4 sm:w-5 sm:h-5" />
+              <span class="whitespace-nowrap">Get Started</span>
+              <ArrowRight class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
             </Button>
           </DialogTrigger>
           <DialogContent
-            class="dark border-black bg-[#0F172A] text-white max-w-[90vw] sm:max-w-sm mx-4 sm:mx-0"
+            class="dark border-black bg-[#0F172A] text-white max-w-[95vw] sm:max-w-md mx-2 sm:mx-0 p-4 sm:p-6"
           >
             <DialogHeader>
               <DialogTitle
